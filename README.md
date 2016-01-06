@@ -1,5 +1,5 @@
-# Transparent project management template
+# Analyzing DECREASE trials for extent of data fabrication
 
-This project includes a folder structure to manage your research project. Each folder contains a readme file which provides a general idea of what to include. The `contributions.csv` file can be used to specify contributions in the research project. Note that this template is geared towards empirical projects.
+The DECREASE set of trials investigated the effectiveness of beta-blockers to prevent perioperative mortality in non-cardiac surgery. Perioperative stands for the period of the surgical procedure, typically including admission, anaesthesia, surgery, and recovery. Upon being discovered as unreliable (Commissie Vervolgonderzoek Wetenschap...; Commissie Vervolgonderzoek 2012 2012; Onderzoekscommissie Wetenschappelijke...), the DECREASE studies were excluded in a 2014 meta-analysis (Bouri et al. 2014), which found that conclusions with respect to the effectiveness of beta-blockers were reversed and increase perioperative mortality instead of decreasing it.
 
-Additionally, not all projects require all parts of this template. The template is meant as a pruning template, where it is duplicated and subsequently adjusted to one's own needs. It is merely here to provide a framework to build on.
+The reports into the DECREASE studies by the Erasmus University indicate that data fabrication was likely, but the extent of the data fabrication was not clearly indicated or deemed estimable. In this project, we aim to investigate the extent of data fabrication in the DECREASE studies by statistical analysis. We expect to confirm the conclusions of the reports that data fabrication is likely.

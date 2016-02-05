@@ -1,0 +1,106 @@
+---
+title: "Analyzing DECREASE trials for extent of data fabrication"
+author: "Chris HJ Hartgerink, Gerben ter Riet, Marleen Kemper"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: word_document
+bibliography: ../bibliography/library.bib
+csl: ../bibliography/ama.csl
+---
+
+The set of DECREASE trials investigated the effectiveness of beta-blockers to prevent perioperative mortality in non-cardiac surgery. Perioperative stands for the period of the surgical procedure, typically including admission, anaesthesia, surgery, and recovery. Upon being discovered as invalid [@commissie2011;@commissie2012;@commissie2013], the DECREASE studies were excluded from a 2014 meta-analysis [@bouri2014]. This corrected analysis found that conclusions on the effectiveness of beta-blockers in perioperative mortality were reversed and actually *increased* perioperative mortality instead of decreasing it.
+
+The committee reports about the DECREASE studies indicate that data fabrication was likely, but the extent of the data fabrication was not clearly indicated or deemed estimable. In this project, we aim to investigate the extent of data fabrication in the DECREASE studies by statistical analysis to fill this gap. We expect to confirm the conclusions of the reports that data fabrication is likely.
+
+To investigate the evidence for data fabrication in the DECREASE studies, we take three steps. First, we try to replicate the findings in the 2014 meta-analysis [@bouri2014], which should be possible with the trial-event data provided in that paper. Second, we evaluate the veracity of the DECREASE studies (i.e., the probability that these study findings occurred assuming no data fabrication occurred). Third, we reverse this assumption and assume that data fabrication did occur and estimate how many data points would need to be fabricated to reproduce the results of the DECREASE studies. We expand on the methods for these three steps below.
+
+# Step 1: replicating Bouri et al. (2014)
+
+To properly analyze the data from clinical trials that investigate the perioperative effect of beta-blockers on non-cardiac surgery mortality in high risk heart-patients, we first try to replicate Bouri et al. to ensure that (1) their results are reproducible and (2) we are using the correct estimates in the following steps.
+
+In order to replicate the results of the meta-analysis, we extract the trial-event data available from figures 2 and 3 in the original paper. More specifically, we extract the raw trial-event data for the 2 (control vs experimental) by 2 (event or no event) design, which we use to recompute the natural logarithm of the risk ratio and its standard error. These data are depicted in Table 1.
+
+*Table 1*. An example of clinical trial summary data used throughout this research.
+
+|          |   Control    | Experimental |
+|----------|--------------|--------------|
+| No event | a            | b            |
+| Event    | c            | d            |
+
+Using the notation of Table 1, the log of the risk ratio is computed as
+
+$ln(RR)=ln(\frac{d/(b+d)}{c/(a+c)})$
+
+The standard error of this statistic is computed as 
+
+$se_{ln(RR)}=\sqrt{\frac{1}{a}+\frac{1}{b}+\frac{1}{c}+\frac{1}{d}}$
+
+We use the `R` package `metafor` [@viechtbauer2010] to meta-analyze the risk ratios. First, we analyze all the non-DECREASE studies to verify the estimates in Figure 2 of Bouri and analyze all DECREASE studies to verify the estimates in Figure 3 of Bouri. Second, we meta-analyze all studies combined, including a dummy-predictor for the DECREASE and non-DECREASE studies to replicate results presented in Figure 4 of Bouri. These models will be run with a random-effects model, using the `REML` estimation method, which has been indicated to be the most optimal estimation method for heterogeneity in a random effects model [@viechtbauer2005]. Note that results need to be exponentiated because the meta-analysis is conducted on log transformed risk ratios.
+
+## Checklist
+
+1. Create datafile with the trial-event data from Bouri et al. (2014)
+2. Code calculation of ln(RR) and standard error calculation in R
+3. Implement the use of `metafor` with the `rma()` function, using random effects estimation method `REML`
+4. Run DECREASE studies
+5. Run non-DECREASE studies
+6. Run meta-regression with dummy predictor comparing DECREASE and non-DECREASE studies
+
+# Step 2: evaluating the veracity of DECREASE studies
+
+We estimate the veracity of the DECREASE studies based on the estimates from the non-DECREASE studies, where we assume that the non-DECREASE studies provide the best known representation of the effect of beta-blockers on perioperative mortality. Veracity indicates the plausibility of the data in a random sampling context [@peters2015]. We assume to estimate the true population distribution of effects, not perturbed by statistical significance publication bias, because a substantial number of nonsignificant effects are included in the dataset.
+
+The estimates of the non-DECREASE studies are obtained from step 1, which include the estimated risk ratio, and the 95% credibility interval as provided by the package `metafor`. Based on this, we assume a normal distribution of population effects with the estimated effect of step 1 as the mean of the distribution. The estimate in step 1 is accompanied by a 95% credibility interval (lower bound and upper bound), which denotes the bounds of the normal distribution that covers 95% of the density. The standard deviation is calculated as the distance from the mean to either bound, divided by 1.96. 
+
+With the estimated population effect distribution of true (that is pooled average based on non-DECREASE trials) effects of beta-blockers, the two-sided probability of the DECREASE trials’ findings can be estimated. These serve as the probability that the DECREASE trials’ findings occurred naturally, i.e., without data fabrication. The combined probability of the DECREASE trials is also calculated, by taking the product of the probability of the two independent studies.
+
+## Checklist
+
+1. Note the mean estimated ln(RR), credible interval upper- and lower bound from step 1
+2. Calculate standard deviation of the ln(RR)
+3. Compute two-sided probability for both DECREASE studies individually (for ln(RR))
+4. Compute joint probability of DECREASE studies by taking the product of the two-sided probabilities for the individual studies.
+
+# Step 3: estimating the amount of fabricated data
+
+We estimate the number of data points (i.e., event or no event) fabricated in each DECREASE study individually (I and IV), if we were to assume data fabrication occurred. This step is carried out regardless of the results of step 2. 
+
+We first estimate the event probability in each condition (beta-blocker and control), for both the DECREASE- and non-DECREASE studies separately. Step 1 only provides an estimate of the overall risk ratio, but not of the odds that an event occurs conditional on exposure (beta-blocker or control) and stratum (DECREASE- versus non-DECREASE). To this end, we run four meta-analyses to estimate the ln(odds) of mortality per stratum. We apply the same methods as in step 1 to meta-analyze the individual effects (i.e., metafor package, REML random effects estimate, credible intervals). This results in eight meta-analyses to estimate the log odds. 
+
+The log odds for each condition, which is used in the meta-analysis, is calculated as 
+
+$ln(odds)=ln(\frac{p}{1-p})$
+
+where *p* is the proportion of patients experiencing an event in that condition. The log odds are accompanied by the standard error 
+
+$se_{ln(odds)}=\frac{1}{np(1-p)}$
+
+where *n* is the total amount of data points in that condition. This results in four estimates:
+
+1. ln(odds) + credible interval in non-DECREASE/genuine studies, control group
+2. ln(odds) + credible interval in non-DECREASE/genuine studies, beta-blockers group
+3. ln(odds) + credible interval in DECREASE/faked studies, control group
+4. ln(odds) + credible interval in DECREASE/faked studies, beta-blockers group
+
+In order to test the number of data points fabricated in the DECREASE studies, we apply the inversion method to the data. The inversion method operates in 9 steps outlined below. 
+
+1. Take the entire sample from one DECREASE study, with the prespecified group sizes from that DECREASE study (e.g., 49 controls and 51 patients on beta-blockers). 
+2. Randomly assign X={0, 1, 2, … , N} of the data points to be faked. 
+3. Draw an ln(odds) from the corresponding population effect 1-4 outlined above. 
+4. Sample an event with the probability calculated from the ln(odds) from the previous step and note the data point 0 (no event) or 1 (event) from either the genuine effect distribution (estimates 1 + 2), or faked effect distribution (estimates 3 + 4). 
+5. When all data points have been generated, estimate the ln(RR) in this simulated sample with metafor and REML estimation.
+6. Note whether this ln(RR) is more likely under the non-DECREASE effect distribution (coded 0) or under the DECREASE effect distribution (coded 1), based on two-sided p-values (larger p-value is more probable)
+7. Repeat k times (k = number of iterations)
+8. Calculate proportions of iterations where estimate was more likely under fabrication than under genuine data.
+9. Note for how many data points from the fabricated (DECREASE) distribution the proportion is closest to .025 and .975 to provide a 95% confidence interval of data points fabricated
+
+This procedure is carried out for both DECREASE studies included in Bouri et al. (2014)
+
+### Checklist
+
+1. Calculate the ln(odds) per condition for both non-DECREASE and DECREASE studies.
+2. Calculate the standard error of the ln(odds) per effect
+3. Compute the four meta-analyses to estimate the ln(odds) and credible intervals for each of the 2 (beta-blocker; control) by 2 (non-DECREASE; DECREASE) design.
+4. Create function to apply inversion method
+5. Apply inversion method to both DECREASE studies separately.
+
+# References

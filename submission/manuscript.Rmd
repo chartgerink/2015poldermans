@@ -70,11 +70,17 @@ The log odds for each condition, which is used in the meta-analysis, is calculat
 
 $ln(odds)=ln(\frac{p}{1-p})$
 
-where *p* is the proportion of patients experiencing an event in that condition. The log odds are accompanied by the standard error 
+where *p* is the proportion of patients experiencing an event in that condition.  The log odds are accompanied by the standard error 
 
 $se_{ln(odds)}=\frac{1}{np(1-p)}$
 
-where *n* is the total amount of data points in that condition. This results in four estimates:
+where *n* is the total amount of data points in that condition. In the case that no events occurred in the condition and *p* = 0, *p* is calculated as for example
+
+$p=\frac{c+.5}{a+c+.5}$
+
+where a and c are indicated in Table 1. This adjustment prevents computational errors and introduces minimal bias [@agresti2002]. 
+
+These meta-analyses result in four estimates:
 
 1. ln(odds) + credible interval in non-DECREASE/genuine studies, control group
 2. ln(odds) + credible interval in non-DECREASE/genuine studies, beta-blockers group
@@ -87,7 +93,7 @@ In order to test the number of data points fabricated in the DECREASE studies, w
 2. Randomly assign X={0, 1, 2, … , N} of the data points to be faked. 
 3. Draw an ln(odds) from the corresponding population effect 1-4 outlined above. 
 4. Sample an event with the probability calculated from the ln(odds) from the previous step and note the data point 0 (no event) or 1 (event) from either the genuine effect distribution (estimates 1 + 2), or faked effect distribution (estimates 3 + 4). 
-5. When all data points have been generated, estimate the ln(RR) in this simulated sample with metafor and REML estimation.
+5. When all data points have been generated, estimate the ln(RR) in this simulated sample with `metafor` and REML estimation.
 6. Note whether this ln(RR) is more likely under the non-DECREASE effect distribution (coded 0) or under the DECREASE effect distribution (coded 1), based on two-sided p-values (larger p-value is more probable)
 7. Repeat k times (k = number of iterations)
 8. Calculate proportions of iterations where estimate was more likely under fabrication than under genuine data.

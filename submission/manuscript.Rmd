@@ -31,6 +31,17 @@ bouri_data[c(4, 7, 9), 7:10] <-  bouri_data[c(4, 7, 9), 7:10] + .5
 
 bouri_data$ln_rr <- log((bouri_data$d/(bouri_data$b+bouri_data$d))/(bouri_data$c/(bouri_data$a+bouri_data$c)))
 bouri_data$se_ln_rr <- sqrt((1/bouri_data$a)+(1/bouri_data$b)+(1/bouri_data$c)+(1/bouri_data$d))
+
+mod_clean <- metafor::rma(yi = ln_rr,
+             sei = se_ln_rr,
+             method = "REML",
+             data = bouri_data[bouri_data$decrease == 0, ],
+             weighted = TRUE)
+mod_dirty <- metafor::rma(yi = ln_rr,
+             sei = se_ln_rr,
+             method = "REML",
+             data = bouri_data[bouri_data$decrease == 1, ],
+             weighted = TRUE)
 ```
 
 We first replicate parts of Bouri et al. This helps ensure that (1) their results are reproducible and (2) we are using the correct estimates in the following steps. In order to replicate the results of the meta-analysis, we extract the trial-event data available from figures 2 and 3 in the original paper. More specifically, we extract the raw trial-event data for the 2 (control vs experimental) by 2 (event or no event) design, which we use to recompute the natural logarithm of the risk ratio and its standard error. 

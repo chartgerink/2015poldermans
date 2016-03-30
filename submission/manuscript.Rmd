@@ -24,6 +24,8 @@ In order to ensure we are using similar analytic procedures as in the 2014 meta-
 ```{r, echo = FALSE}
 suppressPackageStartupMessages(if(!require(metafor)){install.package('metafor')})
 suppressPackageStartupMessages(library(metafor))
+suppressPackageStartupMessages(if(!require(latex2exp)){install.package('latex2exp')})
+suppressPackageStartupMessages(library(latex2exp))
 
 bouri_data <- read.csv('../data/bouri_data.csv')
 
@@ -39,18 +41,18 @@ bouri_data$ln_rr <- log((bouri_data$d/(bouri_data$b+bouri_data$d))/(bouri_data$c
 bouri_data$se_ln_rr <- sqrt((1/bouri_data$a)+(1/bouri_data$b)+(1/bouri_data$c)+(1/bouri_data$d))
 
 mod_clean <- metafor::rma(yi = ln_rr,
-             sei = se_ln_rr,
-             method = "REML",
-             data = bouri_data[bouri_data$decrease == 0, ],
-             weighted = TRUE)
+                          sei = se_ln_rr,
+                          method = "REML",
+                          data = bouri_data[bouri_data$decrease == 0, ],
+                          weighted = TRUE)
 mod_dirty <- metafor::rma(yi = ln_rr,
-             sei = se_ln_rr,
-             method = "REML",
-             data = bouri_data[bouri_data$decrease == 1, ],
-             weighted = TRUE)
+                          sei = se_ln_rr,
+                          method = "REML",
+                          data = bouri_data[bouri_data$decrease == 1, ],
+                          weighted = TRUE)
 ```
 
-We computed the risk ratio (RR) for each study and meta-analyzed the effects. We used the `R` package `metafor` [@viechtbauer2010] to meta-analyze the RRs. We estimated a weighted random-effects model using the restricted maximum-likelihood estimator (i.e., `REML`)[@viechtbauer2005] to estimate the variance of effects. We used the default weighting procedure in the `metafor` package, because the weights provided in the original paper were not accounted for. The 2014 meta-analysis [@bouri2014] did not specify the effect variance estimate used, so minor discrepancies between our estimates and the original estimates might originate from these differences in the estimation procedure.
+We computed the risk ratio (RR) for each study and meta-analyzed the effects. We used the `R` package `metafor` [@viechtbauer2010] to meta-analyze the RRs. We estimated a weighted random-effects model using the restricted maximum-likelihood estimator (i.e., `REML`)[@viechtbauer2005] to estimate the variance of effects. We used the default weighting procedure in the `metafor` package, because the weights provided in the original paper were not accounted for. In the case that there was a zero-count for a cell, .5 was added to each cell of the trial [@agresti2002]. The 2014 meta-analysis [@bouri2014] did not specify the effect variance estimate used, so minor discrepancies between our estimates and the original estimates might originate from these differences in the estimation procedure.
 
 ## Results
 
@@ -67,11 +69,11 @@ First, we analyzed the RRs to verify the estimates in Figure 2 and found that we
 
 ```{r, echo = FALSE}
 mod_mods <- metafor::rma(yi = ln_rr,
-             sei = se_ln_rr,
-             mod =~ as.factor(decrease), # 1 are the decrease studies
-             method = "REML",
-             data = bouri_data,
-             weighted = TRUE)
+                         sei = se_ln_rr,
+                         mod =~ as.factor(decrease), # 1 are the decrease studies
+                         method = "REML",
+                         data = bouri_data,
+                         weighted = TRUE)
 ```
 
 Second, we meta-analyzed all studies combined, including a dummy-predictor for the DECREASE and non-DECREASE studies to replicate results presented in Figure 4 of the 2014 meta-analysis.[@bouri2014] Oddly enough our reproduced results deviated more from the asssumption that the subgroups are in fact from the same population; whereas the original test for subgroup differences was $\chi^2(1)=3.91,p=.05$, our reproduced analyses indicated that $\chi^2(1)=`r round(mod_mods$QM, 2)`,p=`r round(mod_mods$QMp, 3)`$. Additionally, the original analyses showed substantial heterogeneity ($I^2=74.4$%), but our reproduced analyses showed no such thing ($I^2=`r round(mod_mods$I2, 3)`$%). Different estimates of the heterogeneity (e.g., DerSimonian-Laird instead of `REML`) did not change this difference. 
@@ -86,11 +88,11 @@ We estimated the probability of the results in the DECREASE studies based on the
 
 ```{r, echo = FALSE}
 mod_clean_pred <- predict(mod_clean)
+mod_dirty_pred <- predict(mod_dirty)
 ```
 
 Based on the estimated mean log RR and credible interval in the non-DECREASE studies, we computed the probability of log RR in the DECREASE trials. The estimates of the non-DECREASE studies were obtained from step 1, which include the estimated log RR (i.e., `r round(mod_clean$b, 2)`), and the 95% credibility interval as provided by the package `metafor` (i.e., `r sprintf('[%s; %s]', round(mod_clean_pred$cr.lb, 3), round(mod_clean_pred$cr.ub, 3))`. We assumed a normal distribution of population effects with the estimated effect as the mean of the distribution. The 95% credibility interval denotes the bounds of the normal distribution that covers 95% of the density, where the standard deviation is calculated as the distance from the mean to either bound, divided by 1.96. This allows for an approximation of the population effect distribution, as depicted in Figure `r fig <- 1; fig`. 
 
-*Figure `r fig`*. Density plot of the estimated true effect distribution, with the position of the DECREASE studies highlighted.
 ```{r, echo = FALSE}
 temp <- seq(-3, 3, .001)
 
@@ -100,8 +102,8 @@ temp <- seq(-3, 3, .001)
 par(mar = c(.5,0,0,0))
 plot(x = temp,
      dnorm(x = temp,
-      mod_clean$b,
-      (mod_clean_pred$pred - mod_clean_pred$cr.lb)/1.96),
+           mod_clean$b,
+           (mod_clean_pred$pred - mod_clean_pred$cr.lb)/1.96),
      type = 'l',
      bty = 'n',
      xaxt = 'n',
@@ -124,53 +126,188 @@ text(x = bouri_data$ln_rr[bouri_data$decrease == 1][2],
 # dev.off()
 ```
 
+*Figure `r fig`*. Density plot of the estimated true effect distribution, with the position of the DECREASE studies highlighted.
+
 Based on the estimated effect distribution from the non-DECREASE trials, we calculated the probability of each DECREASE trial or a more extreme result. In other words, we computed the *p*-value for the hypothesis that the DECREASE studies occurred based on the information available from the other trials. 
 
 ## Results
 
 ```{r, echo = FALSE}
 prob <- pnorm(q = bouri_data$ln_rr[bouri_data$decrease == 1],
-      mod_clean_pred$pred,
-      (mod_clean_pred$pred - mod_clean_pred$cr.lb)/1.96) * 2
+              mod_clean_pred$pred,
+              (mod_clean_pred$pred - mod_clean_pred$cr.lb)/1.96) * 2
 ```
 
-As Figure `r fig` already indicates, the DECREASE trials are highly unlikely under the estimated effect distribution based on the non-DECREASE trials. More specifically, DECREASE-I (or more extreme) has a probability of `r prob[1]` (much less than 1 in a quintillion) and DECREASE-IV `r prob[2]` (3 in a billion), which indicates they are unlikely to come from the same population effect distribution. Observing two of such extremely unlikely studies in this population effect distribution is then almost impossible, `r prob[1]*prob[2]`. This would therefore indicate that the DECREASE trials are severely different from the non-DECREASE studies.
+As Figure `r fig` already indicates, the DECREASE trials are highly unlikely under the estimated effect distribution based on the non-DECREASE trials. More specifically, DECREASE-I (or more extreme) has a probability of `r prob[1]` (less than 1 in a quintillion) and DECREASE-IV `r prob[2]` (3 in a billion), which indicates they are unlikely to come from the same population effect distribution. Observing two of such extremely unlikely studies in this population effect distribution is highly improbable, `r prob[1]*prob[2]`. This would therefore indicate that the DECREASE trials are severely different from the non-DECREASE studies.
+
+We do note that the variance in the non-DECREASE studies was estimated at 0, indicating that there would supposedly be a fixed-effect of beta-blockers on perioperative mortality despite differences in type of beta-blockers administered and dosage/duration of the beta-blockers. This homogeneity is not excessive, considering that the *Q*-statistic is sufficiently large to begin with (i.e., `r round(mod_clean$QE, .2)`).[@ioannidis2006] Nonetheless, the original non-DECREASE trials show substantive variation in the treatment, for example the usage of different beta-blockers (i.e., atenolol, propanolol, bisoprolol, metoprolol), which have been argued to affect effectiveness of the interventions REF. As such, the lack of heterogeneity can be genuine and indicative of no difference between these beta-blockers and their dosage/duration. Nonetheless, it could also be due to uncertainty in the estimate of heterogeneity due to the small set of studies included.
+
+Considering that the variance (i.e., heterogeneity) estimate is 0 and uncertain due to the small amount of studies included, sensitivity analyses of the results are in place. The probability of observing both DECREASE trials stays approximately below 1 out of 1000 until the variance estimate is .25, and the probability stays approximately below 1 out of 100 until the variance estimate is .43 (see Figure `r fig <- fig + 1; fig`). Further research would be worthwhile to better estimate the variance in the effects of beta-blockers on perioperative mortality.
+
+```{r, echo = FALSE}
+tau2 <- seq(0, 2, .01)
+
+prob_sens_t <- NULL
+i <- 1
+
+for (t2 in tau2){
+  mod_clean_sens <- metafor::rma(yi = ln_rr,
+                                 sei = se_ln_rr, tau2 = t2,
+                                 method = "REML",
+                                 data = bouri_data[bouri_data$decrease == 0, ],
+                                 weighted = TRUE)
+  mod_clean_pred_sens <- predict(mod_clean_sens)
+  prob_sens <- pnorm(q = bouri_data$ln_rr[bouri_data$decrease == 1],
+                     mod_clean_pred_sens$pred,
+                     (mod_clean_pred_sens$pred - mod_clean_pred_sens$cr.lb)/1.96) * 2
+  prob_sens_t[i] <- prob_sens[1] * prob_sens[2]
+  
+  i <- i + 1
+}
+
+par(mar = c(4, 4, 0, 0))
+plot(tau2, prob_sens_t, type = 'l', xlab = TeX('$\\tau^2$'),
+     ylab = 'p-value', bty = 'n')
+points(x = tau2[c(26, 44)], y = prob_sens_t[c(26, 44)])
+text(x = tau2[c(26, 44)],
+     y = prob_sens_t[c(26, 44)] + .02,
+     labels = c(TeX('$\\tau^2=.25$'), TeX('$\\tau^2=.43$')),
+     cex = .8)
+```
+
+*Figure `r fig`*. Sensitivity analyses for the *p*-value that indicates the probability of observing the DECREASE studies, or more extreme, based on the estimated population effect and the accompanying variance estimate.
 
 # Step 3: estimating the amount of fabricated data
 
-We estimate the number of data points fabricated in each DECREASE study individually (I and IV), if we were to assume data fabrication occurred. This step is carried out regardless of the results of step 2. This provides an indication of the severity of the data fabrication as concluded by the misconduct reports [@commissie2011;@commissie2012;@commissie2013;@bouri2014].
+We estimated the number of data points that would have to be fabricated to arrive at the estimates from the DECREASE studies, given that the non-DECREASE studies represent the population effect. This assumes, in contrast to Step 2, that the DECREASE studies were in fact fabricated. The estimates from Step 3 provide an indication to the extent of the potential data fabrication in the DECREASE studies.[@commissie2011;@commissie2012;@commissie2013;@bouri2014]
 
-We first estimate the mortality probability in each condition (beta-blocker and control), for both the DECREASE- and non-DECREASE studies separately. To this end, we run four meta-analyses to estimate the ln(odds) of mortality per stratum. We apply the same methods as in step 1 to meta-analyze the individual effects (i.e., metafor package, REML random effects estimate, credible intervals). This results in eight meta-analyses to estimate the log odds. These separate analyses are necessary, because step 1 only provides an estimate of the overall risk ratio, but not of the odds that an event occurs conditional on exposure (beta-blocker or control) and study set (DECREASE- versus non-DECREASE). 
+## Method
 
-The log odds per study are calculated for each condition. For example, for the control condition, based on Table 1, it is calculated as
+In order to estimate the number of fabricated data points, we meta-analyzed the log odds per condition for both the DECREASE- and non-DECREASE studies separately. For each of these, we ran a meta-analysis applying the same methods as in Step 1. These separate analyses were necessary, because Step 1 only provided estimates of the overall risk ratio, but not of the odds conditional on exposure (beta-blocker or control) and study set (DECREASE- versus non-DECREASE). 
 
-$ln(odds)=ln(\frac{c/(a+c)}{1-(c/(a+c))})$
+We applied the inversion method to estimate the number of data points fabricated in the DECREASE-I and DECREASE-IV studies. To this end, we assumed that the DECREASE data are in fact fabricated, opposed to Step 2 where we assumed they were genuine. The inversion method iteratively simulates data with *X* fabricated data points; *X* varies from 0 through *N*. For each *X*, 10,000 iterations were conducted. Data fabrication occurred using a binomial distribution, with the population effect from the DECREASE studies serving as the probability of an event occurring. The population effect was either drawn from the estimated population distribution, which introduced uncertainty (i.e., uncertain estimate), or was equated to the point estimate (i.e., certain estimate; not preregistered). The remaining genuine data, *N - X*, were simulated in a similar fashion, where we only used the effect distribution from the non-DECREASE studies. Using the (partially) fabricated dataset, we estimated the risk ratio from the data and noted whether the two-sided *p*-value was larger under the non-DECREASE effect distribution (coded 0) or the DECREASE effect distribution.
 
-accompanied by the standard error 
+Based on the results of the inversion method, we obtain a confidence interval of data points fabricated in the DECREASE studies. After running all iterations for one *X*, the proportion of trials that were more likely under the DECREASE population effect than under the non-DECREASE population effect were computed. This resulted in a proportion for each *X* from 0 to *N*. Those proportions closest to .025 and .975 denoted the 95% confidence interval of data points fabricated.
 
-$se_{ln(odds)}=\frac{1}{(a+c)(c/(a+c))(1-(c/(a+c)))}$
+## Results
 
-For the beta-blocker condition *c* is replaced by *d*, and *a* is replaced by *b*. If there are no events in that condition (i.e., zero-count), a half is added to each cell (see also Step 1).[@agresti2002] Subsequently, meta-analyses are conducted per condition (beta-blocker and control), for both the DECREASE- and non-DECREASE studies separately. 
+```{r, echo = FALSE}
+# Log odds for control conditions
+numerator <- bouri_data$c/(bouri_data$a + bouri_data$c)
+denominator <- 1 - (bouri_data$c / (bouri_data$a + bouri_data$c))
+bouri_data$ln_odds_cont <- log(numerator / denominator)
 
-We apply the inversion method to estimate the number of data points fabricated in the DECREASE studies. To this end, we assume that the DECREASE data are in fact fabricated, opposed to Step 2 where we assumed they were genuine. The inversion method iteratively simulates data where *X* data points in that study are fabricated, where *X* varies from 0 through *N*. Each simulated sample is based on the effect distributions estimated earlier. This procedure is carried out for both DECREASE I and DECREASE IV. The analysis script will be made publicly available, and we include the step-by-step process here.
+bouri_data$se_ln_odds_cont <- 1 / ((bouri_data$a + bouri_data$c) * 
+                                     (bouri_data$c / (bouri_data$a + bouri_data$c)) *
+                                     (1 - (bouri_data$c / (bouri_data$a + bouri_data$c))))
 
-1. Take the entire sample from one DECREASE study, with the prespecified group sizes from that DECREASE study (e.g., 49 controls and 51 patients on beta-blockers, N=100). 
-2. Randomly assign X={0, 1, 2, … , N} of the data points to be fabricated. 
-3. Draw an ln(odds) from the corresponding estimated effect distribution (i.e., fabricated/genuine control/beta-blocker condition). 
-4. Sample an event with the probability calculated from the ln(odds) from the previous step and note the data point 0 (no event) or 1 (event). 
-5. When all data points have been generated, estimate the ln(RR) in this simulated sample with `metafor` and `REML` estimation.
-6. Note whether this ln(RR) is more likely under the non-DECREASE effect distribution (coded 0) or under the DECREASE effect distribution (coded 1), based on two-sided p-values (larger p-value is more probable) from the estimated effect distributions
-7. Repeat k times (k = number of iterations; these have yet to be determined but will be at least 1,000)
-8. Calculate proportions of iterations where estimate was more likely under fabrication than under genuine data.
-9. Note for how many data points from the fabricated (DECREASE) distribution the proportion is closest to .025 and .975 to provide a 95% confidence interval of data points fabricated.
+# Log odds for beta-blocker conditions
+numerator <- bouri_data$d/(bouri_data$b + bouri_data$d)
+denominator <- 1 - (bouri_data$d / (bouri_data$b + bouri_data$d))
+bouri_data$ln_odds_beta <- log(numerator / denominator)
 
-### Checklist
+bouri_data$se_ln_odds_beta <- 1 / ((bouri_data$b + bouri_data$d) * 
+                                     (bouri_data$d / (bouri_data$b + bouri_data$d)) *
+                                     (1 - (bouri_data$d / (bouri_data$b + bouri_data$d))))
 
-1. Calculate the ln(odds) per condition for both non-DECREASE and DECREASE studies.
-2. Calculate the standard error of the ln(odds) per effect.
-3. Compute the four meta-analyses to estimate the ln(odds) and credible intervals for each of the 2 (beta-blocker; control) by 2 (non-DECREASE; DECREASE) design.
-4. Create function to apply inversion method.
-5. Apply inversion method to both DECREASE studies separately.
+mod_cont <- rma(yi = ln_odds_cont,
+                sei = se_ln_odds_cont,
+                data = bouri_data[bouri_data$decrease == 0, ],
+                method = 'REML',
+                weighted = TRUE)
+mod_beta <- rma(yi = ln_odds_beta,
+                sei = se_ln_odds_beta,
+                data = bouri_data[bouri_data$decrease == 0, ],
+                method = 'REML',
+                weighted = TRUE)
+
+mod_cont_decrease <- rma(yi = ln_odds_cont,
+                         sei = se_ln_odds_cont,
+                         data = bouri_data[bouri_data$decrease == 1, ],
+                         method = 'REML',
+                         weighted = TRUE)
+mod_beta_decrease <- rma(yi = ln_odds_beta,
+                         sei = se_ln_odds_beta,
+                         data = bouri_data[bouri_data$decrease == 1, ],
+                         method = 'REML',
+                         weighted = TRUE)
+
+cont_pred <- predict(mod_cont)$pred
+cont_cr_lb <- predict(mod_cont)$cr.lb
+cont_cr_ub <- predict(mod_cont)$cr.ub
+cont_var <- (cont_pred - cont_cr_lb) / 1.96
+
+beta_pred <- predict(mod_beta)$pred
+beta_cr_lb <- predict(mod_beta)$cr.lb
+beta_cr_ub <- predict(mod_beta)$cr.ub
+beta_var <- (beta_pred - beta_cr_lb) / 1.96
+
+cont_decrease_pred <- predict(mod_cont_decrease)$pred
+cont_decrease_cr_lb <- predict(mod_cont_decrease)$cr.lb
+cont_decrease_cr_ub <- predict(mod_cont_decrease)$cr.ub
+cont_decrease_var <- (cont_decrease_pred - cont_decrease_cr_lb) / 1.96
+
+beta_decrease_pred <- predict(mod_beta_decrease)$pred
+beta_decrease_cr_lb <- predict(mod_beta_decrease)$cr.lb
+beta_decrease_cr_ub <- predict(mod_beta_decrease)$cr.ub
+beta_decrease_var <- (beta_decrease_pred - beta_decrease_cr_lb) / 1.96
+
+iterations <- 1000
+
+# Uncomment if you want to rerun the inversion method
+# > t1
+# [1] "2016-03-29 13:34:31 CEST"
+# > t2
+# [1] "2016-03-29 15:55:27 CEST"
+# t1 <- Sys.time()
+# source('../functions/inversion_method_uncertain.R')
+# source('../functions/inversion_method_certain.R')
+# t2 <- Sys.time()
+
+load('../data/result_almost_i_uncertain')
+load('../data/result_almost_i_certain')
+
+load('../data/result_almost_iv_uncertain')
+load('../data/result_almost_iv_certain')
+
+res_i_uncertain <- apply(result_almost_i_uncertain, 2, sum) / iterations
+res_i_certain <- apply(result_almost_i_certain, 2, sum) / iterations
+
+par(mar = c(2.5, 5, 0.5, 0.5),
+    mfrow = c(2, 1))
+plot(res_i_uncertain,
+     xlab = '',
+     ylab = 'Proportion',
+     ylim = 0:1,
+     type = 'l',
+     lty = 1)
+lines(res_i_certain, pch = 2, type = 'l', lty = 2)
+abline(h = c(.025, .975), lty = 3)
+
+clip(x1 = 0, x2 = length(res_i_uncertain), y1 = 0.025, y2 = .975)
+abline(v = which(abs(res_i_uncertain - .975) == min(abs(res_i_uncertain - .975))), lty = 1)
+abline(v = which(abs(res_i_certain - .975) == min(abs(res_i_certain - .975))), lty = 2)
+
+res_iv_uncertain <- apply(result_almost_iv_uncertain, 2, sum) / iterations
+res_iv_certain <- apply(result_almost_iv_certain, 2, sum) / iterations
+
+par(mar = c(4, 5, 0.5, 0.5))
+plot(res_iv_uncertain,
+     xlab = 'Data-points fabricated',
+     ylab = 'Proportion',
+     ylim = 0:1,
+     type = 'l',
+     lty = 1)
+lines(res_iv_certain, pch = 2, type = 'l',
+      lty = 2)
+abline(h = c(.025, .975), lty = 3)
+
+clip(x1 = 0, x2 = length(res_iv_uncertain), y1 = 0.025, y2 = .975)
+abline(v = which(abs(res_iv_uncertain - .975) == min(abs(res_iv_uncertain - .975))), lty = 1)
+abline(v = which(abs(res_iv_certain - .975) == min(abs(res_iv_certain - .975))), lty = 2)
+
+
+```
 
 # Discussion
 

@@ -270,6 +270,12 @@ load('../data/result_almost_i_certain')
 load('../data/result_almost_iv_uncertain')
 load('../data/result_almost_iv_certain')
 
+# load('data/result_almost_i_uncertain')
+# load('data/result_almost_i_certain')
+# 
+# load('data/result_almost_iv_uncertain')
+# load('data/result_almost_iv_certain')
+
 res_i_uncertain <- apply(result_almost_i_uncertain, 2, sum) / iterations
 res_i_certain <- apply(result_almost_i_certain, 2, sum) / iterations
 
@@ -283,6 +289,8 @@ plot(res_i_uncertain,
      lty = 1)
 lines(res_i_certain, pch = 2, type = 'l', lty = 2)
 abline(h = c(.025, .975), lty = 3)
+
+legend(x = 0, y = .5, bty = 'n', lty = c(1, 2), legend = c("Distribution estimate", "Point estimate"))
 
 clip(x1 = 0, x2 = length(res_i_uncertain), y1 = 0.025, y2 = .975)
 abline(v = which(abs(res_i_uncertain - .975) == min(abs(res_i_uncertain - .975))), lty = 1)
@@ -302,12 +310,21 @@ lines(res_iv_certain, pch = 2, type = 'l',
       lty = 2)
 abline(h = c(.025, .975), lty = 3)
 
+legend(x = 0, y = .55, bty = 'n', lty = c(1, 2), legend = c("Distribution estimate", "Point estimate"))
+
 clip(x1 = 0, x2 = length(res_iv_uncertain), y1 = 0.025, y2 = .975)
 abline(v = which(abs(res_iv_uncertain - .975) == min(abs(res_iv_uncertain - .975))), lty = 1)
 abline(v = which(abs(res_iv_certain - .975) == min(abs(res_iv_certain - .975))), lty = 2)
-
-
 ```
+
+
+| -           | Estimate              | Lowerbound  | Upperbound | N    |
+|-------------|-----------------------|-------------|------------|------|
+| DECREASE-I  | Distribution estimate | 0           | 79;85;90   | 113  |
+| -           | Point estimate        | 0           | 108;110    | 113  |
+| DECREASE-IV | Distribution estimate | 0           | 1054       | 1067 |
+| -           | Point estimate        | 0           | 718        | 1067 |
+
 
 # Discussion
 

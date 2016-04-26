@@ -1,11 +1,9 @@
 xs <- 0:(bouri_data$control_n[bouri_data$decrease == 1][1] + 
            bouri_data$beta_n[bouri_data$decrease == 1][1])
 
-result_almost_i_certain <- matrix(nrow = iterations, ncol = length(xs))
+result_almost_i_certain <- rep(0, length(xs))
 
 # Loop for DECREASE-I
-j <- 1
-
 for (x in xs){
   for (iter in 1:iterations){
     # Setup data handling
@@ -52,51 +50,34 @@ for (x in xs){
                                                              size = 1,
                                                              beta_decrease_prop)
     
-    # Estimate the ln(RR) for this sample
-    a <- sum(working_df$condition == 'control' & working_df$event == 0)
-    b <- sum(working_df$condition == 'beta' & working_df$event == 0)
-    c <- sum(working_df$condition == 'control' & working_df$event == 1)
-    d <- sum(working_df$condition == 'beta' & working_df$event == 1)
+    # Calculate the cell counts
+    n_exp_mort <- sum(working_df$event[working_df$condition == 'beta'])
+    n_exp_liv <- sum(working_df$event[working_df$condition == 'beta'] == 0)
+    n_cont_mort <- sum(working_df$event[working_df$condition == 'control'])
+    n_cont_liv <- sum(working_df$event[working_df$condition == 'control'] == 0)
     
-    # Add .5 to studies with zero-count
-    if (0 %in% c(a, b, c, d)){
-      a <- a + .5
-      b <- b + .5
-      c <- c + .5
-      d <- d + .5
-    }
     
-    ln_rr <- log((d/(b+d))/(c/(a+c)))
+    # Likelihood under DECREASE
+    l_fab <- beta_decrease_prop^n_exp_mort *
+      (1 - beta_decrease_prop)^n_exp_liv *
+      cont_decrease_prop^n_cont_mort * (1 - cont_decrease_prop)^n_cont_liv
+    l_tru <- beta_prop^n_exp_mort *
+      (1 - beta_prop)^n_exp_liv *
+      cont_prop^n_cont_mort * (1 - cont_prop)^n_cont_liv
     
-    # Determine whether more likely under DECREASE or non-DECREASE
-    # TRUE indicates more likely under DECREASE
-    # the computation just circumvents having to adjust left- or 
-    # right tailed selection.
-    decrease_p <- 1 - 2 * abs(pnorm(q = ln_rr, mod_dirty_pred$pred, (mod_dirty_pred$pred - mod_dirty_pred$cr.lb) / 1.96) - .5)
-    non_decrease_p <- 1 - 2 * abs(pnorm(q = ln_rr, mod_clean_pred$pred, (mod_clean_pred$pred - mod_clean_pred$cr.lb) / 1.96) - .5)
-    
-    result_almost_i_certain[iter, j] <- decrease_p > non_decrease_p 
-    
-    # Extra check to ensure no NAs produced
-    if(is.na(decrease_p > non_decrease_p )){
-      stop('NA produced, check objects decrease_p and non_decrease_p')
-    }
+    result_almost_i_certain[x + 1] <- result_almost_i_certain[x + 1] + (l_fab > l_tru )
     
     cat(sprintf('DECREASE-I: %s fabricated data points, iteration %s\n', x, iter))
   }
-  
-  j <- j + 1
 }
 
 # Set the number of datapoints to be fabricated
 xs <- 0:(bouri_data$control_n[bouri_data$decrease == 1][2] + 
            bouri_data$beta_n[bouri_data$decrease == 1][2])
 
-result_almost_iv_certain <- matrix(nrow = iterations, ncol = length(xs))
+result_almost_iv_certain <- rep(0, length(xs))
 
 # Loop for DECREASE-IV
-j <- 1
-
 for (x in xs){
   for (iter in 1:iterations){
     # Setup data handling
@@ -143,40 +124,25 @@ for (x in xs){
                                                              size = 1,
                                                              beta_decrease_prop)
     
-    # Estimate the ln(RR) for this sample
-    a <- sum(working_df$condition == 'control' & working_df$event == 0)
-    b <- sum(working_df$condition == 'beta' & working_df$event == 0)
-    c <- sum(working_df$condition == 'control' & working_df$event == 1)
-    d <- sum(working_df$condition == 'beta' & working_df$event == 1)
+    # Calculate the cell counts
+    n_exp_mort <- sum(working_df$event[working_df$condition == 'beta'])
+    n_exp_liv <- sum(working_df$event[working_df$condition == 'beta'] == 0)
+    n_cont_mort <- sum(working_df$event[working_df$condition == 'control'])
+    n_cont_liv <- sum(working_df$event[working_df$condition == 'control'] == 0)
     
-    # Add .5 to studies with zero-count
-    if (0 %in% c(a, b, c, d)){
-      a <- a + .5
-      b <- b + .5
-      c <- c + .5
-      d <- d + .5
-    }
     
-    ln_rr <- log((d/(b+d))/(c/(a+c)))
+    # Likelihood under DECREASE
+    l_fab <- beta_decrease_prop^n_exp_mort *
+      (1 - beta_decrease_prop)^n_exp_liv *
+      cont_decrease_prop^n_cont_mort * (1 - cont_decrease_prop)^n_cont_liv
+    l_tru <- beta_prop^n_exp_mort *
+      (1 - beta_prop)^n_exp_liv *
+      cont_prop^n_cont_mort * (1 - cont_prop)^n_cont_liv
     
-    # Determine whether more likely under DECREASE or non-DECREASE
-    # TRUE indicates more likely under DECREASE
-    # the computation just circumvents having to adjust left- or 
-    # right tailed selection.
-    decrease_p <- 1 - 2 * abs(pnorm(q = ln_rr, mod_dirty_pred$pred, (mod_dirty_pred$pred - mod_dirty_pred$cr.lb) / 1.96) - .5)
-    non_decrease_p <- 1 - 2 * abs(pnorm(q = ln_rr, mod_clean_pred$pred, (mod_clean_pred$pred - mod_clean_pred$cr.lb) / 1.96) - .5)
-    
-    result_almost_iv_certain[iter, j] <- decrease_p > non_decrease_p 
-    
-    # Extra check to ensure no NAs produced
-    if(is.na(decrease_p > non_decrease_p )){
-      stop('NA produced, check objects decrease_p and non_decrease_p')
-    }
-    
+    result_almost_iv_certain[x + 1] <- result_almost_iv_certain[x + 1] + (l_fab > l_tru)
+
     cat(sprintf('DECREASE-IV: %s fabricated data points, iteration %s\n', x, iter))
   }
-  
-  j <- j + 1
 }
 
 save(result_almost_i_certain, file = 'data/result_almost_i_certain')

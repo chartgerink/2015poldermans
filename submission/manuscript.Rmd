@@ -254,7 +254,7 @@ beta_decrease_cr_lb <- predict(mod_beta_decrease)$cr.lb
 beta_decrease_cr_ub <- predict(mod_beta_decrease)$cr.ub
 beta_decrease_var <- (beta_decrease_pred - beta_decrease_cr_lb) / 1.96
 
-iterations <- 1000
+iterations <- 10000
 
 # Uncomment if you want to rerun the inversion method
 # > t1

@@ -1,25 +1,25 @@
 ---
 title: "Analyzing DECREASE trials for extent of data fabrication"
 author: "Chris HJ Hartgerink, Gerben ter Riet, Marleen Kemper"
-date: "`r format(Sys.time(), '%d %B, %Y')`"
-output: word_document
+date: '`r format(Sys.time(), "%d %B, %Y")`'
+output: pdf_document
 csl: ../bibliography/ama.csl
 bibliography: ../bibliography/library.bib
 ---
 
 The effectiveness of beta-blockers in preventing perioperative mortatility in non-cardiac surgery has been subject of discussion due to findings of misconduct. [@commissie2011;@commissie2012;@commissie2013;@bouri2014]. Perioperative mortality is the deathrate of patients during the period of the surgical procedure, typically including admission, anaesthesia, surgery, and recovery. 
 
-The trials that were found to be suspect were the DECREASE trials [@commissie2011;@commissie2012;@commissie2013]. Upon being discovered as (potentially) fabricated, the DECREASE studies were excluded from a 2014 meta-analysis [@bouri2014]. The corrected analyses found that conclusions on the effectiveness of beta-blockers in perioperative mortality were reversed --- beta-blockers seemed to actually *increase* perioperative mortality instead of decrease it.
+The trials that were found to be suspect were the DECREASE trials [@commissie2011;@commissie2012;@commissie2013]. Upon being discovered as (potentially) fabricated, the DECREASE studies were excluded from a 2014 meta-analysis [@bouri2014]. The meta-analyses restricted to non-DECREASE studies found that conclusions on the effectiveness of beta-blockers in perioperative mortality were reversed --- beta-blockers seemed to actually *increase* perioperative mortality instead of decreasing it.
 
-The committee reports about the DECREASE studies indicate that data fabrication was likely [@commissie2011;@commissie2012;@commissie2013], but the extent of the data fabrication was not clearly indicated or deemed estimable. In this paper, we aim to estimate the extent of data fabrication in the DECREASE studies [@dunkelgrun2009;@poldermans1999]. We expect to confirm the conclusions of the reports that data fabrication is likely.
+The committee reports about the DECREASE studies indicate that data fabrication was likely [@commissie2011;@commissie2012;@commissie2013], but the extent of the data fabrication remained unclear. In this paper, we aim to estimate the extent of data fabrication in the DECREASE studies [@dunkelgrun2009;@poldermans1999].
 
-To investigate the evidence for data fabrication in the DECREASE studies [@dunkelgrun2009;@poldermans1999], we take three steps. First, we try to replicate the findings from the 2014 meta-analysis [@bouri2014], which should be possible with the trial-event data provided in this meta-analysis. Second, we evaluate the veracity of the DECREASE studies (i.e., the probability that these study findings occurred assuming no data fabrication occurred). Third, we reverse this assumption and assume that data fabrication did occur and estimate how many data points would have to be fabricated to reproduce the results of the DECREASE studies. We expand on the methods for these three steps below.
+To investigate the evidence for data fabrication in the DECREASE studies [@dunkelgrun2009;@poldermans1999], we took three steps. First, we tried to replicate the findings from the 2014 meta-analysis [@bouri2014]. Second, we evaluated the veracity of the DECREASE studies (i.e., the probability that these study findings occurred assuming no data fabrication). Third, we reversed this assumption and assumed that data fabrication did occur, estimating how many data points would have to be fabricated to reproduce the results of the DECREASE studies.
 
 # Step 1: reproducing Bouri et al. (2014)
 
-In order to ensure we are using similar analytic procedures as in the 2014 meta-analysis [@bouri2014], we initially reproduce the estimates. This ensured that (1) their results are reproducible and (2) we are using the correct estimates in the following steps. In order to replicate the results of the meta-analysis, we extract the trial-event data available from figures 2 and 3 in the original paper[@bouri2014]. More specifically, we extract the raw trial-event data for the 2 (control vs experimental) by 2 (event or no event) design, which we use to recompute the natural logarithm of the risk ratio and its standard error. The extracted trial-event data is available at osf.io/aykeh and our analysis plan was preregistered at osf.io/vnmzc.
+## Methods
 
-## Method
+To ensure that we were using similar analytic procedures as in the 2014 meta-analysis [@bouri2014], we initially reproduce Bouri et al.'s estimates. This ensured that (1) their results are reproducible and (2) we are using the correct estimates in the following steps. Using figures 2 and 3 from the original paper[@bouri2014], we extracted the raw event data for the 2 (control vs experimental) by 2 (event or no event) design, which we used to recompute the natural logarithm of the risk ratio and its standard error. The extracted event data is available at [osf.io/aykeh](osf.io/aykeh) and our analysis plan was preregistered at [osf.io/vnmzc](osf.io/vnmzc).
 
 ```{r, echo = FALSE}
 suppressPackageStartupMessages(if(!require(metafor)){install.package('metafor')})
@@ -28,6 +28,7 @@ suppressPackageStartupMessages(if(!require(latex2exp)){install.package('latex2ex
 suppressPackageStartupMessages(library(latex2exp))
 
 bouri_data <- read.csv('../data/bouri_data.csv')
+bouri_data <- read.csv('data/bouri_data.csv')
 
 bouri_data$a <- bouri_data$control_n - bouri_data$control_events
 bouri_data$b <- bouri_data$beta_n - bouri_data$beta_events
@@ -52,11 +53,11 @@ mod_dirty <- metafor::rma(yi = ln_rr,
                           weighted = TRUE)
 ```
 
-We computed the risk ratio (RR) for each study and meta-analyzed the effects. We used the `R` package `metafor` [@viechtbauer2010] to meta-analyze the RRs. We estimated a weighted random-effects model using the restricted maximum-likelihood estimator (i.e., `REML`)[@viechtbauer2005] to estimate the variance of effects. We used the default weighting procedure in the `metafor` package, because the weights provided in the original paper were not accounted for. In the case that there was a zero-count for a cell, .5 was added to each cell of the trial [@agresti2002]. The 2014 meta-analysis [@bouri2014] did not specify the effect variance estimate used, so minor discrepancies between our estimates and the original estimates might originate from these differences in the estimation procedure.
+We computed the log risk ratio (i.e., log RR) for each study and pooled these using the `R` package `metafor` [@viechtbauer2010]. We estimated a weighted random-effects model using the restricted maximum-likelihood estimator (i.e., `REML`)[@viechtbauer2005] to estimate the variance of effects. We used the default weighting procedure in the `metafor` package. When there was a zero-count for a cell, .5 was added to each cell of that trial [@agresti2002]. The 2014 meta-analysis [@bouri2014] did not specify the effect variance estimate used. Hence, minor discrepancies between our estimates and the original estimates might be due to differences in the estimation procedure.
 
 ## Results
 
-First, we analyzed the RRs to verify the estimates in Figure 2 and found that we were able to reproduce the estimates for the different sets of studies. The original Figure 2 [@bouri2014] differentiated between the estimates from the non-DECREASE (i.e., secure) trials and the DECREASE (i.e., non-secure trials). We confirmed the estimates of the effect size and the variance for both the non-DECREASE- and the DECREASE trials, save for some minor discrepancies due to the estimation method. Table `r tab <- 1; tab` depicts the original and reproduced values for both sets of studies.
+First, we analyzed the RRs to verify the estimates in Figure 2 and found that we were able to reproduce the estimates for the different sets of studies. The original Figure 2 [@bouri2014] differentiated between the estimates from the non-DECREASE trials and the DECREASE trials. We confirmed the estimates of the effect size and the variance for both the non-DECREASE- and the DECREASE trials, save for some minor discrepancies due to the estimation method. Table `r tab <- 1; tab` depicts the original and reproduced values for both sets of studies.
 
 *Table `r tab`*. The original- and reproduced meta-analytic results based on the data provided in the 2014 meta-analysis.[@bouri2014]
 
@@ -76,13 +77,13 @@ mod_mods <- metafor::rma(yi = ln_rr,
                          weighted = TRUE)
 ```
 
-Second, we meta-analyzed all studies combined, including a dummy-predictor for the DECREASE and non-DECREASE studies to replicate results presented in Figure 4 of the 2014 meta-analysis.[@bouri2014] Oddly enough our reproduced results deviated more from the asssumption that the subgroups are in fact from the same population; whereas the original test for subgroup differences was $\chi^2(1)=3.91,p=.05$, our reproduced analyses indicated that $\chi^2(1)=`r round(mod_mods$QM, 2)`,p=`r round(mod_mods$QMp, 3)`$. Additionally, the original analyses showed substantial heterogeneity ($I^2=74.4$%), but our reproduced analyses showed no such thing ($I^2=`r round(mod_mods$I2, 3)`$%). Different estimates of the heterogeneity (e.g., DerSimonian-Laird instead of `REML`) did not change this difference. 
+Second, we meta-analyzed all studies combined, including a dummy predictor for the DECREASE and non-DECREASE studies to replicate results presented in Figure 4 of the 2014 meta-analysis.[@bouri2014] Surprisingly, our results showed more evidence against equal subgroups than the original meta-analysis [@bouri2014]. Whereas the original test for subgroup differences was $\chi^2(1)=3.91,p=.05$, our analyses indicated that $\chi^2(1)=`r round(mod_mods$QM, 2)`,p=`r round(mod_mods$QMp, 3)`$. Additionally, the original analyses showed substantial heterogeneity ($I^2=74.4$\%) where we found an $I^2=`r round(mod_mods$I2, 3)`$\%. Different estimates of the heterogeneity (e.g., `DerSimonian-Laird` instead of `REML`) did not change this difference. 
 
 <!--- Emailed bouri about this on 2016 03 16--->
 
 # Step 2: evaluating the veracity of DECREASE studies
 
-We estimated the probability of the results in the DECREASE studies based on the estimates from the non-DECREASE studies. In order to do this, we assumed that the non-DECREASE studies provide the best known representation of the true effect of beta-blockers on perioperative mortality. This probability is also known as the veracity of the data [@peters2015], which indicates the probability of the observed data in a random sampling context. We assumed to estimate the true population distribution of effects, not perturbed by publication bias due to statistical significance, because a substantial number of nonsignificant effects are included in the dataset. To estimate the true population effect we only used the non-DECREASE studies.
+We estimated the probability of obtaining the results in the DECREASE studies based on the estimates from the non-DECREASE studies. To this end, we assumed that the non-DECREASE studies provide a valid representation of the true effect of beta-blockers on perioperative mortality. The estimated probability is also known as the veracity of the data [@peters2015], which indicates the probability of the observed data under a given true effect. We assumed that the non-DECREASE studies estimate the true population distribution of effects, not perturbed by publication bias due to statistical (non)significance. Publication bias was assumed to not be a problem because a substantial number of nonsignificant effects are included in the dataset.
 
 ## Method
 
@@ -91,7 +92,7 @@ mod_clean_pred <- predict(mod_clean)
 mod_dirty_pred <- predict(mod_dirty)
 ```
 
-Based on the estimated mean log RR and credible interval in the non-DECREASE studies, we computed the probability of log RR in the DECREASE trials. The estimates of the non-DECREASE studies were obtained from step 1, which include the estimated log RR (i.e., `r round(mod_clean$b, 2)`), and the 95% credibility interval as provided by the package `metafor` (i.e., `r sprintf('[%s; %s]', round(mod_clean_pred$cr.lb, 3), round(mod_clean_pred$cr.ub, 3))`. We assumed a normal distribution of population effects with the estimated effect as the mean of the distribution. The 95% credibility interval denotes the bounds of the normal distribution that covers 95% of the density, where the standard deviation is calculated as the distance from the mean to either bound, divided by 1.96. This allows for an approximation of the population effect distribution, as depicted in Figure `r fig <- 1; fig`. 
+Based on the estimated mean log RR and credible interval in the non-DECREASE studies, we computed the probability of log RR in the DECREASE trials. The estimates of the non-DECREASE studies were obtained from step 1, which include the estimated log RR (i.e., `r round(mod_clean$b, 2)`), and the 95\% credibility interval as provided by the package `metafor` (i.e., `r sprintf('[%s; %s]', round(mod_clean_pred$cr.lb, 3), round(mod_clean_pred$cr.ub, 3))`. We assumed a normal distribution of population effects with the estimated effect as the mean of the distribution. The 95\% credibility interval denotes the bounds of the normal distribution that covers 95\% of the density, where the standard deviation is calculated as the distance from the mean to either bound, divided by 1.96. This allows for an approximation of the population effect distribution, as depicted in Figure `r fig <- 1; fig`. 
 
 ```{r, echo = FALSE}
 temp <- seq(-3, 3, .001)
@@ -126,9 +127,9 @@ text(x = bouri_data$ln_rr[bouri_data$decrease == 1][2],
 # dev.off()
 ```
 
-*Figure `r fig`*. Density plot of the estimated true effect distribution, with the position of the DECREASE studies highlighted.
+*Figure `r fig`*. Density plot of the estimated true effect distribution based on the non-DECREASE studies, with the position of the DECREASE studies highlighted.
 
-Based on the estimated effect distribution from the non-DECREASE trials, we calculated the probability of each DECREASE trial or a more extreme result. In other words, we computed the *p*-value for the hypothesis that the DECREASE studies occurred based on the information available from the other trials. 
+Based on the estimated effect distribution from the non-DECREASE trials, we calculated the probability of each DECREASE trial result, or a more extreme result. In other words, we computed the *p*-value for the hypothesis that the DECREASE studies occurred based on the information available from the other trials. 
 
 ## Results
 
@@ -138,11 +139,11 @@ prob <- pnorm(q = bouri_data$ln_rr[bouri_data$decrease == 1],
               (mod_clean_pred$pred - mod_clean_pred$cr.lb)/1.96) * 2
 ```
 
-As Figure `r fig` already indicates, the DECREASE trials are highly unlikely under the estimated effect distribution based on the non-DECREASE trials. More specifically, DECREASE-I (or more extreme) has a probability of `r prob[1]` (less than 1 in a quintillion) and DECREASE-IV `r prob[2]` (3 in a billion), which indicates they are unlikely to come from the same population effect distribution. Observing two of such extremely unlikely studies in this population effect distribution is highly improbable, `r prob[1]*prob[2]`. This would therefore indicate that the DECREASE trials are severely different from the non-DECREASE studies.
+Figure `r fig` indicates that the DECREASE trials are highly unlikely under the estimated effect distribution based on the non-DECREASE trials. More specifically, DECREASE-I (or more extreme) has a probability of $`r prob[1]`$ (less than 1 in a quintillion) and DECREASE-IV $`r prob[2]`$ (3 in a billion), which indicates they are unlikely to come from the same population effect distribution. Observing two of such extremely unlikely results in this population effect distribution is highly improbable, $`r prob[1]*prob[2]`$. This would therefore indicate that the DECREASE trials are severely different from the non-DECREASE studies.
 
-We do note that the variance in the non-DECREASE studies was estimated at 0, indicating that there would supposedly be a fixed-effect of beta-blockers on perioperative mortality despite differences in type of beta-blockers administered and dosage/duration of the beta-blockers. This homogeneity is not excessive, considering that the *Q*-statistic is sufficiently large to begin with (i.e., `r round(mod_clean$QE, .2)`).[@ioannidis2006] Nonetheless, the original non-DECREASE trials show substantive variation in the treatment, for example the usage of different beta-blockers (i.e., atenolol, propanolol, bisoprolol, metoprolol), which have been argued to affect effectiveness of the interventions REF. As such, the lack of heterogeneity can be genuine and indicative of no difference between these beta-blockers and their dosage/duration. Nonetheless, it could also be due to uncertainty in the estimate of heterogeneity due to the small set of studies included.
+We note that the variance in the non-DECREASE studies was estimated at 0, indicating that there would supposedly be a fixed-effect of beta-blockers on perioperative mortality despite differences in type of beta-blockers administered and dosage/duration of the beta-blockers. This homogeneity is not excessive, considering that the *Q*-statistic is sufficiently large to begin with (i.e., `r round(mod_clean$QE, .2)`).[@ioannidis2006] Nonetheless, the original non-DECREASE trials show substantive variation in the treatment, for example the usage of different beta-blockers (i.e., atenolol, propanolol, bisoprolol, metoprolol) in different (standardized) dosages, which have been argued to affect effectiveness of the interventions. As such, the lack of heterogeneity can be genuine and indicative of no difference between these different beta-blockers and their dosage/duration. Nonetheless, it could also be due to uncertainty in the estimate of heterogeneity $\tau^2$ due to the small set of studies included.
 
-Considering that the variance (i.e., heterogeneity) estimate is 0 and uncertain due to the small amount of studies included, sensitivity analyses of the results are in place. The probability of observing both DECREASE trials stays approximately below 1 out of 1000 until the variance estimate is .25, and the probability stays approximately below 1 out of 100 until the variance estimate is .43 (see Figure `r fig <- fig + 1; fig`). Further research would be worthwhile to better estimate the variance in the effects of beta-blockers on perioperative mortality.
+Considering that the variance (i.e., heterogeneity) estimate is 0 and uncertain due to the small number of studies included, sensitivity analyses of the results are in place. The probability of observing both DECREASE trials stays approximately below 1 out of 1000 until the variance estimate is .25, and the probability stays approximately below 1 out of 100 until the variance estimate is .43 (see Figure `r fig <- fig + 1; fig`). Further research would be worthwhile to better estimate the variance in the effects of beta-blockers on perioperative mortality.
 
 ```{r, echo = FALSE}
 tau2 <- seq(0, 2, .01)
@@ -175,19 +176,20 @@ text(x = tau2[c(26, 44)],
      cex = .8)
 ```
 
-*Figure `r fig`*. Sensitivity analyses for the *p*-value that indicates the probability of observing the DECREASE studies, or more extreme, based on the estimated population effect and the accompanying variance estimate.
+*Figure `r fig`*. Sensitivity analyses for the *p*-value that indicates the probability of observing the results from the DECREASE studies, or more extreme results, based on the estimated true effect (non-DECREASE trials) and the accompanying variance estimate.
 
 # Step 3: estimating the amount of fabricated data
 
-We estimated the number of data points that would have to be fabricated to arrive at the estimates from the DECREASE studies, given that the non-DECREASE studies represent the population effect. This assumes, in contrast to Step 2, that the DECREASE studies were in fact fabricated. The estimates from Step 3 provide an indication to the extent of the potential data fabrication in the DECREASE studies.[@commissie2011;@commissie2012;@commissie2013;@bouri2014]
+We estimated the number of data points that would need to be fabricated to arrive at the estimates from the DECREASE studies, given that the non-DECREASE studies represent the true effect. This assumes, in contrast to Step 2, that the DECREASE studies in fact contain fabrication data. The estimates from Step 3 provide an indication of the extent of the potential data fabrication in the DECREASE studies under this assumption.[@commissie2011;@commissie2012;@commissie2013;@bouri2014]
 
 ## Method
 
-In order to estimate the number of fabricated data points, we meta-analyzed the log odds per condition for both the DECREASE- and non-DECREASE studies separately. For each of these, we ran a meta-analysis applying the same methods as in Step 1. These separate analyses were necessary, because Step 1 only provided estimates of the overall risk ratio, but not of the odds conditional on exposure (beta-blocker or control) and study set (DECREASE- versus non-DECREASE). 
+In order to estimate the number of fabricated data points, we meta-analyzed the log odds of mortality per condition for both the DECREASE- and non-DECREASE studies separately. For each of these, we ran a meta-analysis applying the same methods as in Step 1. These separate analyses were necessary, because Step 1 only provided estimates of the overall risk ratio, but not of the odds conditional on exposure (beta-blocker or control) and study set (DECREASE- versus non-DECREASE). 
 
-We applied the inversion method to estimate the number of data points fabricated in the DECREASE-I and DECREASE-IV studies. To this end, we assumed that the DECREASE data are in fact fabricated, opposed to Step 2 where we assumed they were genuine. The inversion method iteratively simulates data with *X* fabricated data points; *X* varies from 0 through *N*. For each *X*, 10,000 iterations were conducted. Data fabrication occurred using a binomial distribution, with the population effect from the DECREASE studies serving as the probability of an event occurring. The population effect was either drawn from the estimated population distribution, which introduced uncertainty (i.e., uncertain estimate), or was equated to the point estimate (i.e., certain estimate; not preregistered). The remaining genuine data, *N - X*, were simulated in a similar fashion, where we only used the effect distribution from the non-DECREASE studies. Using the (partially) fabricated dataset, we estimated the risk ratio from the data and noted whether the two-sided *p*-value was larger under the non-DECREASE effect distribution (coded 0) or the DECREASE effect distribution.
+We applied the inversion method to estimate the number of data points fabricated in the DECREASE-I and DECREASE-IV studies.[@casella2002] The inversion method iteratively simulates data with *X* fabricated data points; *X* varying from 0 through *N*. For each *X*, 10,000 iterations were conducted. Data fabrication occurred using a binomial distribution, with the population effect from the DECREASE studies serving as the probability of an event occurring. The population effect was either drawn from the estimated population distribution, which introduced uncertainty (i.e., uncertain estimate), or was equated to the point estimate (i.e., certain estimate; not preregistered). The remaining genuine data, *N - X*, were simulated in a similar fashion, where we only used the effect distribution from the non-DECREASE studies. Using the (partially) fabricated dataset, we estimated the risk ratio from the data and noted whether the two-sided *p*-value was larger under the non-DECREASE effect distribution (coded 0) or the DECREASE effect distribution.
+<!--- Marcel's Likelihood approach should be incorporated still; DEVIATION FROM PREREGISTRATION --->
 
-Based on the results of the inversion method, we obtain a confidence interval of data points fabricated in the DECREASE studies. After running all iterations for one *X*, the proportion of trials that were more likely under the DECREASE population effect than under the non-DECREASE population effect were computed. This resulted in a proportion for each *X* from 0 to *N*. Those proportions closest to .025 and .975 denoted the 95% confidence interval of data points fabricated.
+Based on the results of the inversion method, we obtain a confidence interval of data points fabricated in the DECREASE studies. After running all iterations for one *X*, the proportion of trials that were more likely under the DECREASE population effect than under the non-DECREASE population effect were computed. This resulted in a proportion for each *X* from 0 to *N*. Those proportions closest to .025 and .975 denoted the 95\% confidence interval of data points fabricated.
 
 ## Results
 
@@ -318,14 +320,31 @@ abline(v = which(abs(res_iv_certain - .975) == min(abs(res_iv_certain - .975))),
 ```
 
 
-| -           | Estimate              | Lowerbound  | Upperbound | N    |
+|            | Estimate              | Lowerbound  | Upperbound | N    |
 |-------------|-----------------------|-------------|------------|------|
 | DECREASE-I  | Distribution estimate | 0           | 79;85;90   | 113  |
-| -           | Point estimate        | 0           | 108;110    | 113  |
+|            | Point estimate        | 0           | 108;110    | 113  |
 | DECREASE-IV | Distribution estimate | 0           | 1054       | 1067 |
-| -           | Point estimate        | 0           | 718        | 1067 |
+|            | Point estimate        | 0           | 718        | 1067 |
 
 
 # Discussion
+
+<!---
+GtR
+1. Is natuurlijk wle gevaarlijk als we in gedachten nemen dat DECREASE op een heel
+andere benadering van perioperatieve blockade is gestoeld.
+Ik begrijp dat een dergeliijk bezwaar het fundament van onze exercitie aantast,
+maar we moeten daar goed over nadenken.
+In discussie kunnen we zeggen:
+Decrease approach is niet wezenlijk anders dan non-decrease enonze analyse geldt
+Decrease appraoch is wezenijk anders qua aanpak en effect en daarom kunnen
+verschillen te wijten zijin aan fraude maar ook aan beter effect en die twee
+kunnen wij niet scheiden. 
+Nieuwe decrease aanpak trials zijj nodig (zie ook paper uit NTvG van Marleen)
+2. In Discussion we must debate the statistical aspects and the content aspects where DECREASE have a very different approach to the prevention of periop mortality than non-DECREASE.
+This makes our own work much more difficult to interpret
+--->
+
 
 # References

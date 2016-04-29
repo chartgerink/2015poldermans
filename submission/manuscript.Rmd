@@ -274,18 +274,67 @@ load('../data/result_almost_i_certain')
 
 load('../data/result_almost_iv_uncertain')
 load('../data/result_almost_iv_certain')
-# 
+
 # load('data/result_almost_i_uncertain')
 # load('data/result_almost_i_certain')
 # 
 # load('data/result_almost_iv_uncertain')
 # load('data/result_almost_iv_certain')
 
-res_i_uncertain <- apply(result_almost_i_uncertain, 2, sum) / iterations
-res_i_certain <- apply(result_almost_i_certain, 2, sum) / iterations
+res_i_uncertain <- result_almost_i_uncertain / iterations
+res_i_certain <- result_almost_i_certain / iterations
+  
+res_iv_uncertain <- result_almost_iv_uncertain / iterations
+res_iv_certain <- result_almost_iv_certain / iterations
+
+res_i_uncertain_lb <- NULL
+res_i_uncertain_ub <- NULL
+res_i_certain_lb <- NULL
+res_i_certain_ub <- NULL
+
+res_iv_uncertain_lb <- NULL
+res_iv_uncertain_ub <- NULL
+res_iv_certain_lb <- NULL
+res_iv_certain_ub <- NULL
+
+j <- 1
+for (i in seq(0, 1, .01))
+{
+  lb <- .5 - (i / 2)
+  ub <- .5 + (i / 2)
+  
+  res_i_uncertain_lb[j] <- which(abs(res_i_uncertain - lb) == min(abs(res_i_uncertain - lb)))[1]
+  res_i_uncertain_ub[j] <- which(abs(res_i_uncertain - ub) == min(abs(res_i_uncertain - ub)))[1]
+  
+  
+  res_i_certain_lb[j] <- which(abs(res_i_certain - lb) == min(abs(res_i_certain - lb)))[1]
+  res_i_certain_ub[j] <- which(abs(res_i_certain - ub) == min(abs(res_i_certain - ub)))[1]
+  
+  
+  res_iv_uncertain_lb[j] <- which(abs(res_iv_uncertain - lb) == min(abs(res_iv_uncertain - lb)))[1]
+  res_iv_uncertain_ub[j] <- which(abs(res_iv_uncertain - ub) == min(abs(res_iv_uncertain - ub)))[1]
+  
+  res_iv_certain_lb[j] <- which(abs(res_iv_certain - lb) == min(abs(res_iv_certain - lb)))[1]
+  res_iv_certain_ub[j] <- which(abs(res_iv_certain - ub) == min(abs(res_iv_certain - ub)))[1]
+  
+  
+  j <- j + 1
+}
+
+# Manually correct some errors in the bound seeking from the loop above
+# errors arise from Monte Carlo error:
+# .022 .021 .023 <-- selects .021, but should select 0
+# considering that running >10000 takes ages and does not guarantee
+# it will fix the problem, I do it like this
+res_i_uncertain_lb <- ifelse(res_i_uncertain_lb == 4, 0, res_i_uncertain_lb)
+res_i_certain_lb <- ifelse(res_i_certain_lb == 1, 0, res_i_certain_lb)
+res_iv_uncertain_lb <- ifelse(res_iv_uncertain_lb == 8, 0, res_iv_uncertain_lb)
+res_iv_certain_lb[98:101] <- 0
+res_iv_certain_ub[98:101] <- 1067
+
 
 par(mar = c(2.5, 5, 0.5, 0.5),
-    mfrow = c(2, 1))
+    mfrow = c(2, 2))
 plot(res_i_uncertain,
      xlab = '',
      ylab = 'Proportion',
@@ -295,14 +344,21 @@ plot(res_i_uncertain,
 lines(res_i_certain, pch = 2, type = 'l', lty = 2)
 abline(h = c(.025, .975), lty = 3)
 
-legend(x = 0, y = .5, bty = 'n', lty = c(1, 2), legend = c("Distribution estimate", "Point estimate"))
+legend(x = 0, y = .9, bty = 'n', lty = c(1, 2), legend = c("Distribution estimate", "Point estimate"))
 
-clip(x1 = 0, x2 = length(res_i_uncertain), y1 = 0.025, y2 = .975)
-abline(v = which(abs(res_i_uncertain - .975) == min(abs(res_i_uncertain - .975))), lty = 1)
-abline(v = which(abs(res_i_certain - .975) == min(abs(res_i_certain - .975))), lty = 2)
+plot(x = NA, y = NA,
+     xlim = c(0,1), ylim = c(0, length(res_i_certain)),
+     xlab = "Confidence in %", ylab = "Data points fabricated")
 
-res_iv_uncertain <- apply(result_almost_iv_uncertain, 2, sum) / iterations
-res_iv_certain <- apply(result_almost_iv_certain, 2, sum) / iterations
+lines(x = seq(0, 1, .01), y = res_i_uncertain_lb)
+lines(x = seq(0, 1, .01), y = res_i_uncertain_ub)
+lines(x = seq(0, 1, .01), y = res_i_certain_lb, lty = 2, pch = 2, type = 'l')
+lines(x = seq(0, 1, .01), y = res_i_certain_ub, lty = 2, pch = 2, type = 'l')
+abline(v = .95, lty = 3)
+
+# clip(x1 = 0, x2 = length(res_i_uncertain), y1 = 0.025, y2 = .975)
+# abline(v = which(abs(res_i_uncertain - .975) == min(abs(res_i_uncertain - .975))), lty = 1)
+# abline(v = which(abs(res_i_certain - .975) == min(abs(res_i_certain - .975))), lty = 2)
 
 par(mar = c(4, 5, 0.5, 0.5))
 plot(res_iv_uncertain,
@@ -315,20 +371,17 @@ lines(res_iv_certain, pch = 2, type = 'l',
       lty = 2)
 abline(h = c(.025, .975), lty = 3)
 
-legend(x = 0, y = .55, bty = 'n', lty = c(1, 2), legend = c("Distribution estimate", "Point estimate"))
+plot(x = NA, y = NA,
+     xlim = c(0,1), ylim = c(0, length(res_iv_certain)),
+     xlab = "Confidence in %", ylab = "Data points fabricated")
 
-clip(x1 = 0, x2 = length(res_iv_uncertain), y1 = 0.025, y2 = .975)
-abline(v = which(abs(res_iv_uncertain - .975) == min(abs(res_iv_uncertain - .975))), lty = 1)
-abline(v = which(abs(res_iv_certain - .975) == min(abs(res_iv_certain - .975))), lty = 2)
+lines(x = seq(0, 1, .01), y = res_iv_uncertain_lb)
+lines(x = seq(0, 1, .01), y = res_iv_uncertain_ub)
+lines(x = seq(0, 1, .01), y = res_iv_certain_lb, lty = 2, pch = 2, type = 'l')
+lines(x = seq(0, 1, .01), y = res_iv_certain_ub, lty = 2, pch = 2, type = 'l')
+abline(v = .95, lty = 3)
 ```
-
-
-|            | Estimate              | Lowerbound  | Upperbound | N    |
-|-------------|-----------------------|-------------|------------|------|
-| DECREASE-I  | Distribution estimate | 0           | 79;85;90   | 113  |
-|            | Point estimate        | 0           | 108;110    | 113  |
-| DECREASE-IV | Distribution estimate | 0           | 1054       | 1067 |
-|            | Point estimate        | 0           | 718        | 1067 |
+*Figure `r fig <- fig + 1; fig`*. 
 
 
 # Discussion

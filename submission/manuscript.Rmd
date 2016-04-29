@@ -28,7 +28,7 @@ suppressPackageStartupMessages(if(!require(latex2exp)){install.package('latex2ex
 suppressPackageStartupMessages(library(latex2exp))
 
 bouri_data <- read.csv('../data/bouri_data.csv')
-bouri_data <- read.csv('data/bouri_data.csv')
+# bouri_data <- read.csv('data/bouri_data.csv')
 
 bouri_data$a <- bouri_data$control_n - bouri_data$control_events
 bouri_data$b <- bouri_data$beta_n - bouri_data$beta_events
@@ -263,15 +263,18 @@ iterations <- 10000
 # [1] "2016-03-29 15:55:27 CEST"
 # t1 <- Sys.time()
 # source('../functions/inversion_method_uncertain.R')
-# source('../functions/inversion_method_certain.R')
+# # source('functions/inversion_method_uncertain.R')
 # t2 <- Sys.time()
+# source('../functions/inversion_method_certain.R')
+# # source('functions/inversion_method_certain.R')
+# t3 <- Sys.time()
 
 load('../data/result_almost_i_uncertain')
 load('../data/result_almost_i_certain')
 
 load('../data/result_almost_iv_uncertain')
 load('../data/result_almost_iv_certain')
-
+# 
 # load('data/result_almost_i_uncertain')
 # load('data/result_almost_i_certain')
 # 

@@ -22,9 +22,9 @@ To investigate the evidence for data fabrication in the DECREASE studies [@dunke
 To ensure that we were using similar analytic procedures as in the 2014 meta-analysis [@bouri2014], we initially reproduce Bouri et al.'s estimates. This ensured that (1) their results are reproducible and (2) we are using the correct estimates in the following steps. Using figures 2 and 3 from the original paper[@bouri2014], we extracted the raw event data for the 2 (control vs experimental) by 2 (event or no event) design, which we used to recompute the natural logarithm of the risk ratio and its standard error. The extracted event data is available at [osf.io/aykeh](osf.io/aykeh) and our analysis plan was preregistered at [osf.io/vnmzc](osf.io/vnmzc).
 
 ```{r, echo = FALSE}
-suppressPackageStartupMessages(if(!require(metafor)){install.package('metafor')})
+suppressPackageStartupMessages(if(!require(metafor)){install.packages('metafor')})
 suppressPackageStartupMessages(library(metafor))
-suppressPackageStartupMessages(if(!require(latex2exp)){install.package('latex2exp')})
+suppressPackageStartupMessages(if(!require(latex2exp)){install.packages('latex2exp')})
 suppressPackageStartupMessages(library(latex2exp))
 
 bouri_data <- read.csv('../data/bouri_data.csv')

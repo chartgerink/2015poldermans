@@ -5,6 +5,7 @@ date: '`r format(Sys.time(), "%d %B, %Y")`'
 output:
   pdf_document:
     keep_tex: yes
+    fig_caption: yes
   word_document: default
 csl: ../bibliography/ama.csl
 bibliography: ../bibliography/library.bib
@@ -396,6 +397,7 @@ res_iv_uncertain_lb <- ifelse(res_iv_uncertain_lb == 8, 0, res_iv_uncertain_lb)
 res_iv_certain_lb[98:101] <- 0
 res_iv_certain_ub[98:101] <- 1067
 
+# Old plotting. Saved temporarily. Ignore if forgotten to delete.
 # pdf(sprintf('%sfigures/fig3.pdf', x12), width = 8, height = 6)
 # 
 # par(mar = c(2.5, 5, 0.5, 0.5),
@@ -454,7 +456,7 @@ par(mar = c(5, 5, 2.5, 0),
 plot(res_i_uncertain,
      xlab = 'Data points fabricated',
      ylab = 'Proportion',
-     main = 'DECREASE I',
+     main = 'DECREASE-I',
      ylim = 0:1,
      type = 'l',
      lty = 1)
@@ -468,7 +470,7 @@ par(mar = c(5, 0, 2.5, 0.5))
 plot(res_iv_uncertain,
      xlab = 'Data-points fabricated',
      ylab = '',
-     main = 'DECREASE IV',
+     main = 'DECREASE-IV',
      ylim = 0:1,
      yaxt = 'n',
      type = 'l',
@@ -508,16 +510,15 @@ abline(v = .95, lty = 3)
 invisible(dev.off())
 ```
 
-```{r figure 3, fig.cap = 'Test', out.width = '80%', fig.asp = .5, fig.align = 'center', echo = FALSE}
+```{r figure 3, fig.cap = 'Inversion method results used to estimate the number of data points fabricated in the DECREASE-I and DECREASE-IV trials. The top row panels indicate $p_F$ (y-axis) for all $X$ out of $N$ fabricated data points (x-axis). The bottom row indicates the estimated number of fabricated data points (y-axis) when varying the degree of confidence (x-axis). Dotted lines indicate the bounds for a 95 percent CI.', out.width = '80%', fig.asp = .5, fig.align = 'center', echo = FALSE}
 knitr::include_graphics(sprintf("%sfigures/fig3.pdf", x12))
 ```
 
-```{r}
-res_i_certain
-res_i_uncertain
-res_iv_certain
-res_iv_uncertain
-```
+For DECREASE-I, the 95\% confidence interval for the estimated number of fabricated data points is [`r which.min(res_i_certain - .025) - 1` - `r which.max(res_i_certain - .975) - 1`] or [`r which.min(res_i_uncertain - .025) - 1` - `r which.max(res_i_uncertain - .975) - 1`] when based on a point estimate or a more uncertain distribution estimate, respectively. The left column of Figure 3 depicts the $p_F$ per *X* fabricated data points (top panel) and the bounds of the confidence interval when the degree of confidence is altered (lower panel). Staying clearly between the dotted lines in the top panel, depicting the 95\% CI (top: .975; bottom: .025), it becomes apparent that the degree of uncertainty is too high to make any estimates with a high degree of confidence. This due to the small sample size (i.e., $N=`r length(res_i_certain) - 1`$) combined with the availability of just the summary results. Only when the degree of confidence is lowered to around 75\% does the interval not span the entire sample size. As such, based on the summary results, little can be said about the extent of the data fabrication that occurred in the DECREASE-I trial, affirming the conclusions of the original committee report [@commissie2013]. 
+
+For DECREASE-IV, the 95\% confidence interval for the estimated number of fabricated data points is [`r which.min(res_iv_certain - .025) - 1` - `r which.max(res_iv_certain - .975) - 1`] or [`r which.min(res_iv_uncertain - .025) - 1` - `r which.max(res_iv_uncertain - .975) - 1`] when based on a point estimate or a more uncertain distribution estimate, respectively. The minor difference between the estimates indicates that there is a high degree of confidence that data fabrication did occur. Nonetheless, the range of potentially fabricated data points is still estimated at approximately 1000; this indicates that the summary results are insufficient to provide more than an estimated lowerbound. However, this does indicate that it is possible not all data were fabricated (i.e., $N=`r length(res_iv_certain) - 1`$), increasing the importance of data provenance to discern between genuine and falsified data. This affirms the conclusion of the scientific integrity committee that the results of the DECREASE-IV trial are "scientifically incorrect" (p.11) [@commissie2012]. 
+
+The results also highlight that, despite the lack of availability of raw data, summary results from larger samples result in more certainty about the estimated number of fabricated data points using the inversion method. This is due to decreased standard errors at the population level of the effects, providing less variation in the simulations and resulting in higher sensitivity. However, this also highlights that in order to prevent detection it would be in the fabricators' interest to fabricate small studies (assuming the fabricator wants to remain undetected). 
 
 # Discussion
 
@@ -537,10 +538,12 @@ Nieuwe decrease aanpak trials zijj nodig (zie ook paper uit NTvG van Marleen)
 This makes our own work much more difficult to interpret
 -->
 
+Throughout steps 1, 2, and 3 we provided evidence that the , the DECREASE trials are highly unlikely to come from a genuine data pool, and that there is a high degree of confidence that data was fab
+
 <!--Move to discussion?-->
 We note that the variance in the non-DECREASE studies was estimated at 0, indicating that there would supposedly be a fixed-effect of beta-blockers on perioperative mortality despite differences in type of beta-blockers administered and dosage/duration of the beta-blockers. This homogeneity is not excessive, considering that the *Q*-statistic is sufficiently large to begin with (i.e., `r round(mod_clean$QE, .2)`).[@ioannidis2006] Nonetheless, the original non-DECREASE trials show substantive variation in the treatment, for example the usage of different beta-blockers (i.e., atenolol, propanolol, bisoprolol, metoprolol) in different (standardized) dosages, which have been argued to affect effectiveness of the interventions[@klei2015]. As such, the lack of heterogeneity can be genuine and indicative of no difference between these different beta-blockers and their dosage/duration. Nonetheless, it could also be due to uncertainty in the estimate of heterogeneity $\tau^2$ due to the small set of studies included.
 
-However, due to various types of beta-blockers, evidence might be moderated[@klei2015].
+However, due to various types of beta-blockers, evidence might be moderated [@klei2015].
 
 Additionally, during the process of this research paper, the first author tried to ascertain a raw dataset of one of the DECREASE trials via a Freedom of Information request (FOI). The Erasmus MC refused to share these data
 

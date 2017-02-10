@@ -4,8 +4,9 @@ author: "Chris HJ Hartgerink, Gerben ter Riet, Marleen Kemper"
 date: '`r format(Sys.time(), "%d %B, %Y")`'
 output:
   pdf_document:
-    keep_tex: yes
     fig_caption: yes
+    keep_tex: yes
+  html_document: default
   word_document: default
 csl: ../bibliography/ama.csl
 bibliography: ../bibliography/library.bib
@@ -16,21 +17,19 @@ What should be in here?
 1. Effectiveness of beta-blockers (decrease probability))
 2. Effects of findings of misconduct
 3. Why this study. -->
-The effect of beta-blockers on perioperative mortality in non-cardiac surgery for patients with coronary artery disease (CAD) has been subject of discussion [@Coleg5210] due to findings of research  misconduct [@commissie2011;@commissie2012;@commissie2013] that were central to claims of their effectiveness [@Devereaux313;@Angeli2010;@bouri2014]. Perioperative mortality is the deathrate of patients during the period of the surgical procedure, which typically includes admission, anaesthesia, surgery, and recovery. This related finding of research misconduct altered meta-analytic results of perioperative mortality in non-cardiac surgery for CAD patients substantively[@bouri2014], where meta-analyses that include these studies conclude that beta-blockers decrease perioperative mortality [@Devereaux313;@Angeli2010;@bouri2014] but a meta-analysis that excludes these studies concludes that beta-blockers increase perioperative mortality[@bouri2014]. 
+The effect of beta-blockers on perioperative mortality in non-cardiac surgery for patients with coronary artery disease (CAD) has been subject of discussion [@Coleg5210] due to findings of research  misconduct [@commissie2011;@commissie2012;@commissie2013]. Consequently, it appeared that the related trials were central to claims of the effectiveness of beta-blocker in decreasing perioperative mortality [@Devereaux313;@Angeli2010;@bouri2014]. Perioperative mortality is the deathrate of patients during the period of the surgical procedure, which typically includes admission, anaesthesia, surgery, and recovery. Meta-analyses that include these studies subject to research misconduct conclude that beta-blockers decrease perioperative mortality [@Devereaux313;@Angeli2010;@bouri2014] whereas a meta-analysis that excludes the studies subject to research misconduct concludes that beta-blockers increase perioperative mortality [@bouri2014]. 
 
-The trials deemed to be the result of research misconduct were the Dutch DECREASE trials[@commissie2011;@commissie2012;@commissie2013]. The committees that investigated the integrity of the DECREASE studies reported that data fabrication was likely [@commissie2011;@commissie2012;@commissie2013], but that the extent of the data fabrication remained unclear. Given that the inclusion or exclusion of these trials in meta-analyses is crucial in determining whether beta-blockers are indeed effective during the perioperative period and the latest guidelines still recommend the usage of beta-blockers [@esc2014], we aim to estimate the extent of data fabrication in the DECREASE studies [@dunkelgrun2009;@poldermans1999] in order to further this debate. 
+The trials subject to research misconduct were the Dutch DECREASE trials [@commissie2011;@commissie2012;@commissie2013]. The committees that investigated the integrity of the DECREASE studies reported that data fabrication was likely but that the extent of the data fabrication remained unclear [@commissie2011;@commissie2012;@commissie2013]. Given that the inclusion or exclusion of these trials in meta-analyses is crucial in determining whether beta-blockers are an effective treatment and considering that the latest guidelines still recommend the usage of beta-blockers [@esc2014], we aim to estimate the extent of data fabrication in the DECREASE studies [@dunkelgrun2009;@poldermans1999] in order to further the debate. 
 
-The reports on the DECREASE trials primarily focused on the provenance of the raw data and patient files (e.g., informed consent, whether data corresponded to patient files), but neglected the extent to which the DECREASE studies deviated from similar trials that tested the effectiveness of beta-blockers on perioperative mortality. Comparing how (dis)similar trials are from comparable studies is not a new idea [@Buyse1999-jq] and has proven effective in detecting data fabrication [@Knepper2016-la]. This is a different approach from the forensic statistical methods previously applied [@commissie2013], where results within one study are evaluated as opposed to other similar studies. This explains the discrepancy between the feasibility of evaluating the DECREASE trials by the statistical expert of the committee report and ours.
+The reports on the integrity of the DECREASE trials primarily focused on the provenance of the raw data and patient files (e.g., informed consent, whether data corresponded to patient files) but did not investigate the extent to which the DECREASE trials deviated from comparable trials. The committee reports did not neglect statistical evaluation; a statistical expert evaluated the applicability of forensic statistical methods [@commissie2013] to evaluate results within one trial. However, comparing across trials can be used as a forensic statistical method as well. This method has previously been used to monitor trial data quality or to test for potential data anomalies [@Buyse1999-jq]. Moreover, this method has previously proven to be effective in detecting data fabrication [@Knepper2016-la]. As such, evaluating the DECREASE trials against comparable trials investigating the effectiveness of beta-blockers with respect to perioperative mortality could prove worthwhile.
 
-<!-- Hier evt nog wat vertellen over FOI? -->
-<!-- Finally, we share our unsuccesful experiences in trying to further investigate the issue by requesting the DECREASE-VI raw data and call for more transparency. -->
-To statistically investigate the evidence of data fabrication in the results of the DECREASE studies [@dunkelgrun2009;@poldermans1999], we took three steps. First, we replicate the findings from a 2014 meta-analysis [@bouri2014] that contains sufficient information to estimate the deviation of the DECREASE-I and DECREASE-IV studies from the remaining studies. Second, we evaluate the veracity of the DECREASE-I and DECREASE-IV studies (i.e., the probability that these study findings occurred assuming no data fabrication occurred). Third, we reverse this assumption and assume that data fabrication did occur and estimate how many data points would have to be fabricated to reproduce the results of the DECREASE-I and DECREASE-IV studies if the remaining studies are regarded as estimating the true effect of beta-blockers on perioperative mortality.
+To statistically investigate the evidence of data fabrication in the results of the DECREASE studies [@dunkelgrun2009;@poldermans1999], we took three steps. First, we reproduced the findings from a 2014 meta-analysis [@bouri2014] that contained sufficient information to estimate the deviation of the DECREASE-I and DECREASE-IV studies from the remaining studies. Second, we evaluated the veracity of the DECREASE-I and DECREASE-IV studies (i.e., the probability that these study findings occurred assuming no data fabrication occurred). Third, we reversed this assumption and assumed that data fabrication did occur and estimate how many data points would have to be fabricated to reproduce the results of the DECREASE-I and DECREASE-IV studies if the remaining studies are regarded as estimating the true effect of beta-blockers on perioperative mortality.
 
 # Step 1: reproducing meta-analysis of Bouri et al. (2014)
 
 ## Methods
 
-To ensure that we used similar analysis procedures as in the 2014 meta-analysis [@bouri2014], we initially reproduced Bouri et al.'s estimates. This ensured that (1) their results are reproducible and (2) we are using the correct estimates in subsequent steps of our analyses. Using figures 2 and 3 from the original paper [@bouri2014], we extracted the raw event data for the 2 (control vs experimental) by 2 (event or no event) design, which we used to recompute the natural logarithm of the risk ratio and its standard error. The extracted event data is available at [osf.io/aykeh](https://osf.io/aykeh) and our analysis plan was preregistered at [osf.io/vnmzc](https://osf.io/vnmzc).
+To ensure that we used similar analysis procedures as in the 2014 meta-analysis [@bouri2014], we initially reproduced Bouri et al.'s estimates. This ensured that (1) their results are reproducible and (2) we are using the correct estimates in subsequent steps of our analyses. Using figures 2 and 3 from the original paper [@bouri2014], we extracted the raw event data for the 2 (control vs experimental) by 2 (event vs no event) design, which we used to recompute the natural logarithm of the risk ratio and its standard error. The extracted event data is available at [osf.io/aykeh](https://osf.io/aykeh) and our analysis plan was preregistered at [osf.io/vnmzc](https://osf.io/vnmzc).
 
 ```{r, echo = FALSE}
 suppressPackageStartupMessages(if(!require(metafor)){install.packages('metafor', repos = "http://cran.us.r-project.org")})
@@ -40,13 +39,25 @@ suppressPackageStartupMessages(library(latex2exp))
 suppressPackageStartupMessages(library(knitr))
 
 x12 <- '../'
-# x12 <- ''
+x12 <- ''
 bouri_data <- read.csv(sprintf('%sdata/bouri_data.csv', x12))
 
 bouri_data$a <- bouri_data$control_n - bouri_data$control_events
 bouri_data$b <- bouri_data$beta_n - bouri_data$beta_events
 bouri_data$c <- bouri_data$control_events
 bouri_data$d <- bouri_data$beta_event
+
+bouri_data$beta_blocker <- c("atenolol",
+                             "propanolol",
+                             "metoprolol",
+                             "metoprolol",
+                             "metoprolol",
+                             "atenolol",
+                             "bisoprolol",
+                             "metoprolol",
+                             "metoprolol",
+                             "bisoprolol",
+                             "bisoprolol")
 
 # Add .5 to studies with zero-counts
 bouri_data[c(4, 7, 9), 7:10] <-  bouri_data[c(4, 7, 9), 7:10] + .5

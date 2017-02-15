@@ -82,7 +82,7 @@
   \postauthor{\par}
   \predate{\centering\large\emph}
   \postdate{\par}
-  \date{01 February, 2017}
+  \date{13 februari, 2017}
 
 
 \begin{document}
@@ -91,53 +91,56 @@
 The effect of beta-blockers on perioperative mortality in non-cardiac
 surgery for patients with coronary artery disease (CAD) has been subject
 of discussion\textsuperscript{1} due to findings of research
-misconduct\textsuperscript{2--4} that were central to claims of their
-effectiveness\textsuperscript{5--7}. Perioperative mortality is the
+misconduct\textsuperscript{2--4}. Consequently, it appeared that the
+related trials were central to claims of the effectiveness of
+beta-blocker in decreasing perioperative
+mortality\textsuperscript{5--7}. Perioperative mortality is the
 deathrate of patients during the period of the surgical procedure, which
-typically includes admission, anaesthesia, surgery, and recovery. This
-related finding of research misconduct altered meta-analytic results of
-perioperative mortality in non-cardiac surgery for CAD patients
-substantively\textsuperscript{7}, where meta-analyses that include these
-studies conclude that beta-blockers decrease perioperative
-mortality\textsuperscript{5--7} but a meta-analysis that excludes these
-studies concludes that beta-blockers increase perioperative
-mortality\textsuperscript{7}.
+typically includes admission, anaesthesia, surgery, and recovery.
+Meta-analyses that include these studies subject to research misconduct
+conclude that beta-blockers decrease perioperative
+mortality\textsuperscript{5--7} whereas a meta-analysis that excludes
+the studies subject to research misconduct concludes that beta-blockers
+increase perioperative mortality\textsuperscript{7}.
 
-The trials deemed to be the result of research misconduct were the Dutch
-DECREASE trials\textsuperscript{2--4}. The committees that investigated
-the integrity of the DECREASE studies reported that data fabrication was
-likely\textsuperscript{2--4}, but that the extent of the data
-fabrication remained unclear. Given that the inclusion or exclusion of
+The trials subject to research misconduct were the Dutch DECREASE
+trials\textsuperscript{2--4}. The committees that investigated the
+integrity of the DECREASE studies reported that data fabrication was
+likely but that the extent of the data fabrication remained
+unclear\textsuperscript{2--4}. Given that the inclusion or exclusion of
 these trials in meta-analyses is crucial in determining whether
-beta-blockers are indeed effective during the perioperative period and
-the latest guidelines still recommend the usage of
+beta-blockers are an effective treatment and considering that the latest
+guidelines still recommend the usage of
 beta-blockers\textsuperscript{8}, we aim to estimate the extent of data
 fabrication in the DECREASE studies\textsuperscript{9,10} in order to
-further this debate.
+further the debate.
 
-The reports on the DECREASE trials primarily focused on the provenance
-of the raw data and patient files (e.g., informed consent, whether data
-corresponded to patient files), but neglected the extent to which the
-DECREASE studies deviated from similar trials that tested the
-effectiveness of beta-blockers on perioperative mortality. Comparing how
-(dis)similar trials are from comparable studies is not a new
-idea\textsuperscript{11} and has proven effective in detecting data
-fabrication\textsuperscript{12}. This is a different approach from the
-forensic statistical methods previously applied\textsuperscript{4},
-where results within one study are evaluated as opposed to other similar
-studies. This explains the discrepancy between the feasibility of
-evaluating the DECREASE trials by the statistical expert of the
-committee report and ours.
+The reports on the integrity of the DECREASE trials primarily focused on
+the provenance of the raw data and patient files (e.g., informed
+consent, whether data corresponded to patient files) but did not
+investigate the extent to which the DECREASE trials deviated from
+comparable trials. The committee reports did not neglect statistical
+evaluation; a statistical expert evaluated the applicability of forensic
+statistical methods\textsuperscript{4} to evaluate results within one
+trial. However, comparing across trials can be used as a forensic
+statistical method as well. This method has previously been used to
+monitor trial data quality or to test for potential data
+anomalies\textsuperscript{11}. Moreover, this method has previously
+proven to be effective in detecting data
+fabrication\textsuperscript{12}. As such, evaluating the DECREASE trials
+against comparable trials investigating the effectiveness of
+beta-blockers with respect to perioperative mortality could prove
+worthwhile.
 
 To statistically investigate the evidence of data fabrication in the
 results of the DECREASE studies\textsuperscript{9,10}, we took three
-steps. First, we replicate the findings from a 2014
-meta-analysis\textsuperscript{7} that contains sufficient information to
-estimate the deviation of the DECREASE-I and DECREASE-IV studies from
-the remaining studies. Second, we evaluate the veracity of the
+steps. First, we reproduced the findings from a 2014
+meta-analysis\textsuperscript{7} that contained sufficient information
+to estimate the deviation of the DECREASE-I and DECREASE-IV studies from
+the remaining studies. Second, we evaluated the veracity of the
 DECREASE-I and DECREASE-IV studies (i.e., the probability that these
 study findings occurred assuming no data fabrication occurred). Third,
-we reverse this assumption and assume that data fabrication did occur
+we reversed this assumption and assumed that data fabrication did occur
 and estimate how many data points would have to be fabricated to
 reproduce the results of the DECREASE-I and DECREASE-IV studies if the
 remaining studies are regarded as estimating the true effect of
@@ -154,11 +157,19 @@ estimates. This ensured that (1) their results are reproducible and (2)
 we are using the correct estimates in subsequent steps of our analyses.
 Using figures 2 and 3 from the original paper\textsuperscript{7}, we
 extracted the raw event data for the 2 (control vs experimental) by 2
-(event or no event) design, which we used to recompute the natural
+(event vs no event) design, which we used to recompute the natural
 logarithm of the risk ratio and its standard error. The extracted event
 data is available at \href{https://osf.io/aykeh}{osf.io/aykeh} and our
 analysis plan was preregistered at
 \href{https://osf.io/vnmzc}{osf.io/vnmzc}.
+
+\begin{verbatim}
+## Warning: package 'latex2exp' was built under R version 3.2.5
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'knitr' was built under R version 3.2.5
+\end{verbatim}
 
 We computed the log risk ratio (i.e., log RR) for each study and pooled
 these using the \texttt{R} package \texttt{metafor}\textsuperscript{13}.
@@ -198,7 +209,7 @@ DECREASE & Original & 0.42 & 0.29 & {[}0.15; 1.23{]}\tabularnewline
 \end{longtable}
 
 Second, we meta-analyzed all studies combined, including a dummy
-predictor for the DECREASE and non-DECREASE studies to replicate results
+predictor for the DECREASE and non-DECREASE studies to reproduce results
 presented in Figure 4 of the 2014 meta-analysis\textsuperscript{7}.
 Surprisingly, our results showed more evidence for unequal subgroups
 than the original meta-analysis\textsuperscript{7}; whereas the original
@@ -208,7 +219,7 @@ analyses showed substantial heterogeneity (\(I^2=74.4\)\%) where we
 found an \(I^2=0\)\%. Different heterogeneity estimators (e.g.,
 \texttt{DerSimonian-Laird} instead of \texttt{REML}) did not resolve
 this difference. We tried to clarify these discrepancies by e-mailing
-the original authors, but failed to receive a response.
+the original authors, but did not receive a response.
 
 \section{Step 2: evaluating the veracity of DECREASE
 studies}\label{step-2-evaluating-the-veracity-of-decrease-studies}
@@ -297,36 +308,36 @@ data}\label{step-3-estimating-the-amount-of-fabricated-data}
 
 We estimated the number of data points that would need to be fabricated
 to arrive at the estimates from the DECREASE studies, given that the
-non-DECREASE studies represent the true effect. This assumes, in
-contrast to Step 2, that the DECREASE studies in fact contain fabricated
-data. The estimates from Step 3 provide an indication of the extent of
-the potential data fabrication in the DECREASE studies under this
-assumption\textsuperscript{2--4,7}.
+non-DECREASE studies represent the true population effect distribution.
+This assumes, in stark contrast to Step 2, that the DECREASE studies in
+fact contain fabricated data. The estimates from Step 3 provide an
+indication of the extent of potential data fabrication in the DECREASE
+studies\textsuperscript{2--4,7}.
 
 \subsection{Method}\label{method-1}
 
 In order to estimate the number of fabricated data points, we estimated
 the population effect distribution of mortality (in log odds) per
-condition in both the DECREASE- and non-DECREASE studies separately. For
-each of these, we ran a meta-analysis applying the same, verified
-methods used in Step 1. These separate analyses were necessary,
-considering that Step 1 only provided estimates of the overall risk
-ratio but not the odds conditional on exposure (beta-blocker or control)
-and study set (DECREASE- versus non-DECREASE). This resulted in four
-meta-analytic mortality estimates with an accompanying variance.
-Throughout the simulations, we use the point estimates to simulate
-genuine- and fabricated data, but supplement this by using the
+condition in both the DECREASE- and non-DECREASE studies. For each of
+these, we ran a meta-analysis applying the same, verified methods used
+in Step 1. These separate analyses were necessary, considering that Step
+1 only provided estimates of the overall risk ratio but not the odds
+conditional on exposure (beta-blocker or control) and trial set
+(DECREASE- versus non-DECREASE). This resulted in four meta-analytic
+mortality estimates with an accompanying effect variance. Throughout the
+simulations, we use the point estimates to simulate genuine- and
+fabricated data but supplement this by using the more uncertain
 distribution estimates as sensitivity analyses.
 
 We applied the inversion method to estimate the number of fabricated
 data points in the DECREASE-I and DECREASE-IV
-studies\textsuperscript{17}. With the inversion method, we iteratively
+trials\textsuperscript{17}. With the inversion method, we iteratively
 hypothesized that \emph{X} out of \emph{N} data points were fabricated
-(i.e., \(0, 1, ..., N\)) in the DECREASE-I and DECREASE-IV studies
-separately. For each study, we simulated 10,000 datasets per hypothesis
-of \emph{X} fabricated data points and \emph{N-X} genuine data points.
-For each simulated dataset (exact simulation procedure in next
-paragraph), we determined the likelihood of the results with
+(i.e., \(X={0, 1, ..., N}\)). For each combination of \emph{X} and
+trial, we simulated 10,000 datasets. Each simulated dataset contained
+\emph{X} fabricated data points and \emph{N-X} genuine data points. For
+each simulated dataset (exact simulation procedure in next paragraph),
+we determined the likelihood of the results with
 
 \begin{equation}
 \label{eq1}
@@ -339,12 +350,13 @@ condition as drawn from the meta-analytic effect distribution
 likelihood was computed under both the fabricated effect estimates
 (i.e., \(L_{fabricated}\)) and the genuine data (i.e., \(L_{genuine}\)).
 Table 2 indicates which cell sizes the various \(n_{XX}\) refer to
-within the (simulated) data. We compared the likelihoods to determine
-whether the simulated data were more likely to arise from the genuine-
-(\(L_{genuine}\)) or from the fabricated data (\(L_{fabricated}\)). Note
-that using the likelihoods for this is a minor deviation from the
-preregistration, where we initially planned on using \(p\)-value
-comparisons (\href{https://osf.io/vnmzc}{osf.io/vnmzc}).
+within the (simulated) data. Subsequently, we compared the likelihoods
+to determine whether the simulated data were more likely to arise from
+the genuine trials (\(L_{genuine}\)) or from the fabricated trials
+(\(L_{fabricated}\)). Note that using the likelihoods for this is a
+minor deviation from the preregistration, where we initially planned on
+using \(p\)-value comparisons
+(\href{https://osf.io/vnmzc}{osf.io/vnmzc}).
 
 \begin{longtable}[]{@{}lll@{}}
 \caption{Outcome possibilities within a simulated 2 (beta-blocker v
@@ -356,7 +368,7 @@ Control & \(n_{21}\) & \(n_{22}\)\tabularnewline
 \bottomrule
 \end{longtable}
 
-For each hypothesis of \emph{X} out of \emph{N} fabricated datapoints,
+For each hypothesis of \emph{X} out of \emph{N} fabricated data points,
 we computed the probability that the fabricated data are more likely
 than the genuine data (\(p_F=P(L_{fabricated}>L_{genuine})\)). Based on
 \(p_F\), we computed the confidence interval for \(X\) (i.e.,
@@ -364,16 +376,15 @@ than the genuine data (\(p_F=P(L_{fabricated}>L_{genuine})\)). Based on
 equal to the \(p_F\) closest to .025, whereas the upperbound is equal to
 the \(p_F\) closest to .975.
 
-We computed \(p_F\) for all possibilities of \emph{X} out of \emph{N}
-fabricated datapoints in 10,000 randomly generated datsets, which were
-generated in three steps. For each dataset we:
+We computed \(p_F\) for all \emph{X} out of \emph{N} fabricated
+datapoints in 10,000 randomly generated datsets, which were generated in
+three steps. For each dataset we:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  Sampled (without replacement) \emph{X} fictitious participants that
-  would be the result of data fabrication (sampled across all
-  conditions).
+  Sampled (without replacement and across conditions) \emph{X}
+  fictitious participants that would be the result of data fabrication.
 \item
   Determined the population mortality rate for each condition (i.e., for
   each cell as in Table 3). The meta-analytic point estimate was used or
@@ -387,7 +398,7 @@ generated in three steps. For each dataset we:
 
 Based on the meta-analytic effect from 2 and the cell sizes from 3, we
 computed the likelihoods of \(L_{fabricated}\) and \(L_{genuine}\) using
-Equation \ref{eq1}. As mentioned before, \(p_F\) was computed as the
+Equation \ref{eq1}. As mentioned before, we computed \(p_F\) as the
 probability that the data were more likely under the estimates resulting
 from the (allegedly) fabricated data (i.e., the DECREASE trials) than
 under the estimates resulting from the genuine data (i.e., the
@@ -412,29 +423,29 @@ data points (top panel) and the bounds of the confidence interval when
 the degree of confidence is altered (lower panel). Staying clearly
 between the dotted lines in the top panel, depicting the 95\% CI (top:
 .975; bottom: .025), it becomes apparent that the degree of uncertainty
-is too high to make any estimates with a high degree of confidence. This
-due to the small sample size (i.e., \(N=112\)) combined with the
-availability of just the summary results. Only when the degree of
-confidence is lowered to around 75\% does the interval not span the
-entire sample size. As such, based on the summary results, little can be
-said about the extent of the data fabrication that occurred in the
-DECREASE-I trial, affirming the conclusions of the original committee
-report\textsuperscript{4}.
+is too high to make any estimates about fabricated data points with a
+high degree of confidence. This is partly due to the small sample size
+(i.e., \(N=112\)) and the availability of just the summary results. Only
+when the degree of confidence is lowered to around 75\% does the
+interval not span the entire sample size. As such, based on the summary
+results, little can be said about the extent of the data fabrication
+that occurred in the DECREASE-I trial, affirming the conclusions of the
+original committee report\textsuperscript{4}.
 
 For DECREASE-IV, the 95\% confidence interval for the estimated number
 of fabricated data points is {[}8 - 1059{]} or {[}7 - 1066{]} when based
 on a point estimate or a more uncertain distribution estimate,
 respectively. The minor difference between the estimates indicates that
-there is a high degree of confidence that data fabrication did occur.
-Nonetheless, the range of potentially fabricated data points is still
-estimated at approximately 1000; this indicates that the summary results
-are insufficient to provide more than an estimated lowerbound. However,
-this does indicate that it is possible not all data were fabricated
-(i.e., \(N=1066\)), increasing the importance of data provenance to
-discern between genuine and falsified data. This affirms the conclusion
-of the scientific integrity committee that the results of the
-DECREASE-IV trial are ``scientifically incorrect''
-(p.11)\textsuperscript{3}.
+there is a high degree of confidence that data fabrication did occur
+based on the difference of the results alone. Nonetheless, the range of
+potentially fabricated data points is still estimated at approximately
+1000; this indicates that the summary results are insufficient to
+provide more than an estimated lowerbound. This does indicate that it is
+possible not all data were fabricated (i.e., \(N=1066\)), increasing the
+importance of well-documented data provenance to discern between genuine
+and falsified data. This affirms the conclusion of the scientific
+integrity committee that the results of the DECREASE-IV trial are
+``scientifically incorrect'' (p.11)\textsuperscript{3}.
 
 The results also highlight that, despite the lack of availability of raw
 data, summary results from larger samples result in more certainty about
@@ -444,7 +455,8 @@ of the effects, providing less variation in the simulations and
 resulting in higher sensitivity. However, this also highlights that in
 order to prevent detection it would be in the fabricators' interest to
 fabricate small studies (assuming the fabricator wants to remain
-undetected).
+undetected). This adds another factor to the unreliability of studies
+with small sample sizes.
 
 \section{Discussion}\label{discussion}
 

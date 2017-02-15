@@ -67,7 +67,7 @@ for (x in xs){
     
     result_almost_i_certain[x + 1] <- result_almost_i_certain[x + 1] + (l_fab > l_tru )
     
-    cat(sprintf('DECREASE-I: %s fabricated data points, iteration %s\n', x, iter))
+    # cat(sprintf('DECREASE-I: %s fabricated data points, iteration %s\n', x, iter))
   }
 }
 
@@ -141,9 +141,9 @@ for (x in xs){
     
     result_almost_iv_certain[x + 1] <- result_almost_iv_certain[x + 1] + (l_fab > l_tru)
 
-    cat(sprintf('DECREASE-IV: %s fabricated data points, iteration %s\n', x, iter))
+    # cat(sprintf('DECREASE-IV: %s fabricated data points, iteration %s\n', x, iter))
   }
 }
 
-save(result_almost_i_certain, file = 'data/result_almost_i_certain')
-save(result_almost_iv_certain, file = 'data/result_almost_iv_certain')
+save(result_almost_i_certain, file = '../data/result_almost_i_certain')
+save(result_almost_iv_certain, file = '../data/result_almost_iv_certain')

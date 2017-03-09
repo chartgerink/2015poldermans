@@ -15,12 +15,8 @@ for (x in xs){
     
     # Sample the proportion of events from population effects
     # min() ensures that probabilities are truncated to be at most 1
-    cont_prop <- min(exp(rnorm(1,
-                               cont_pred,
-                               cont_var)), 1)
-    beta_prop <- min(exp(rnorm(1,
-                               beta_pred,
-                               beta_var)), 1)
+    cont_prop <- exp(cont_pred)
+    beta_prop <- exp(beta_pred)
     
     cont_decrease_prop <- exp(cont_decrease_pred)
     beta_decrease_prop <- exp(beta_decrease_pred)
@@ -89,12 +85,8 @@ for (x in xs){
     
     # Sample the proportion of events from population effects
     # min() ensures that probabilities are truncated to be at most 1
-    cont_prop <- min(exp(rnorm(1,
-                               cont_pred,
-                               cont_var)), 1)
-    beta_prop <- min(exp(rnorm(1,
-                               beta_pred,
-                               beta_var)), 1)
+    cont_prop <- exp(cont_pred)
+    beta_prop <- exp(beta_pred)
     
     cont_decrease_prop <- exp(cont_decrease_pred)
     beta_decrease_prop <- exp(beta_decrease_pred)

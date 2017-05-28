@@ -24,7 +24,7 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{hyperref}
 \hypersetup{unicode=true,
-            pdftitle={Analyzing DECREASE trials for extent of data fabrication},
+            pdftitle={Analyzing DECREASE trials for extent of data fabrication {[}working title{]}},
             pdfauthor={Chris HJ Hartgerink, Gerben ter Riet, Marleen Kemper},
             pdfborder={0 0 0},
             breaklinks=true}
@@ -74,7 +74,8 @@
 }
 
 \setlength{\droptitle}{-2em}
-  \title{Analyzing DECREASE trials for extent of data fabrication}
+  \title{Analyzing DECREASE trials for extent of data fabrication {[}working
+title{]}}
   \pretitle{\vspace{\droptitle}\centering\huge}
   \posttitle{\par}
   \author{Chris HJ Hartgerink, Gerben ter Riet, Marleen Kemper}
@@ -82,34 +83,33 @@
   \postauthor{\par}
   \predate{\centering\large\emph}
   \postdate{\par}
-  \date{09 March, 2017}
+  \date{24 May, 2017}
 
 
 \begin{document}
 \maketitle
 
 The effect of beta-blockers on perioperative mortality in non-cardiac
-surgery for patients with coronary artery disease (CAD) has been
-controversial\textsuperscript{1} due to findings of research misconduct
-in two related clinical trials\textsuperscript{2--4}. Three
-meta-analyses that included the trials subject to research misconduct
-concluded that beta-blockers decrease perioperative
-mortality\textsuperscript{5--7} whereas a meta-analysis that excluded
-the suspect trials concluded that beta-blockers increase perioperative
-mortality\textsuperscript{7}. In these studies, perioperative mortality
-was defined as the deathrate of patients during the period of the
-surgical procedure, which typically includes admission, anaesthesia,
-surgery, and recovery.
+surgery has been controversial\textsuperscript{1} due to findings of
+research misconduct in two related clinical
+trials\textsuperscript{2--6}. Three meta-analyses that included the
+trials subject to research misconduct concluded that beta-blockers
+decrease perioperative mortality\textsuperscript{7--9} whereas a
+meta-analysis that excluded the suspect trials concluded that
+beta-blockers increase perioperative mortality\textsuperscript{9}. In
+these studies, perioperative mortality was defined as the deathrate of
+patients during the period of the surgical procedure, which typically
+includes admission, anaesthesia, surgery, and recovery.
 
 The trials subject to research misconduct were the Dutch DECREASE-I and
-DECREASE-IV trials\textsuperscript{2--4}. The committees that
+DECREASE-IV trials\textsuperscript{4--6}. The committees that
 investigated the integrity of the DECREASE trials reported that data
 fabrication was likely but that the extent of the data fabrication
-remained unclear\textsuperscript{2--4}. Moreover, the latest guidelines
+remained unclear\textsuperscript{4--6}. Moreover, the latest guidelines
 still recommend the usage of beta-blockers in the perioperative period
-in certain cases\textsuperscript{{\textbf{???}},8}. Considering these
+in certain cases\textsuperscript{{\textbf{???}},10}. Considering these
 consequences, we aim to estimate the extent of data fabrication in the
-DECREASE studies\textsuperscript{9,10} to further the debate on using
+DECREASE studies\textsuperscript{2--6} to further the debate on using
 beta-blockers in the perioperative period of CAD patients undergoing
 non-cardiac surgery.
 
@@ -121,56 +121,84 @@ verifying things such as (but not limited to) the informed consent and
 whether data corresponded to patient files. The committee reports did
 not neglect statistical evaluation however: a statistical expert
 evaluated the applicability of forensic statistical
-methods\textsuperscript{4} to evaluate results of trials separately
+methods\textsuperscript{6} to evaluate results of trials separately
 (i.e., DECREASE-I, DECREASE-IV). Nonetheless, comparing across trials is
 a method that has previously been used to monitor trial data quality or
 to test for potential data anomalies\textsuperscript{11}. Moreover, this
 method has previously proven to be effective in detecting data
-fabrication\textsuperscript{12}. Evaluating the DECREASE trials to other
+fabrication\textsuperscript{12}. Comparing the DECREASE trials to other
 published trials studying the effectiveness of beta-blockers with
 respect to perioperative mortality could prove informative of the
 potential extent of the fabrication in the DECREASE trials.
 
-However, the effectiveness of perioperative beta-blockade is obfuscated
-by both trials afflicted by data fabrication and the type of
-beta-blocker used in the trial. Various kinds of beta-blockers could
-vary in their pharmalogical effectiveness with respect to perioperative
-mortality, and anomalies in the effectiveness of the DECREASE trials
-might be due to differences in the beta-blockers
-used\textsuperscript{13} and not purely due to data fabrication (given
-not all data points can be considered fabricated at this point).
+The effectiveness of perioperative beta-blockade is obfuscated by the
+afflicted DECREASE trials, potentially interacting with the type of
+beta-blocker and the way that beta-blocker was administered (i.e., dose
+and duration of treatment). Throughout the clinical trials regarding
+beta-blockers, patients were administered various beta-blockers (e.g.,
+metroprolol, bisoprolol, atenolol) and in various ways (e.g.,
+intraveneously, orally; half an hour before surgery or multiple days
+before surgery). Factors such as dosage and duration can have an effect
+on the pharmacological effectiveness with respect to perioperative
+mortality. Moreover, the anomalous results from the DECREASE trials
+might partly be caused by such differences\textsuperscript{13} and not
+purely due to data fabrication (given not all data points can be
+considered fabricated at this point).
+
+The latest guidelines of the European Society of Cardiology and the
+American Heart Association still recommend the usage of beta-blockers in
+certain cases {[}@;@{]}. Therefore, we evaluate the usage of
+beta-blockers with respect to its effectiveness for the the
+perioperative period in patients undergoing non-cardiac surgery. First,
+we estimated the extent of data fabrication in the DECREASE
+studies\textsuperscript{2,3} Secondly, we evaluated the clinical studies
+used in the different meta-analysis from a pharmacological point of
+view.
+
+\section{Part 1: statistical estimation of data fabrication in DECREASE
+trials}\label{part-1-statistical-estimation-of-data-fabrication-in-decrease-trials}
 
 To statistically investigate the evidence of data fabrication in the
-DECREASE studies\textsuperscript{9,10}, we took three steps. First, we
-reproduced the findings from a 2014 meta-analysis\textsuperscript{7}
-that contained sufficient information to estimate the deviation of the
-DECREASE trials from other published trials on beta-blockers. We also
-include type of beta-blocker to inspect whether this is predictive of
-the effect of beta-blockers on perioperative mortality. Second, we
-evaluated the probability that the DECREASE trials occurred assuming no
-data fabrication. Third, we reversed this assumption and assumed that
-data fabrication did occur and estimated how many data points would have
-to be fabricated to reproduce the results of the DECREASE trials, if the
-other published trials are regarded as estimating the true effect of
-beta-blockers on perioperative mortality in CAD patients undergoing
-non-cardiac surgery.
+DECREASE studies\textsuperscript{2,3}, we took three steps. First, we
+reproduced the findings from the 2014 meta-analysis by Bouri et
+al.\textsuperscript{9} that contained sufficient information to estimate
+the deviation of the DECREASE trials from other published trials on
+beta-blockers. We also include type of beta-blocker to inspect whether
+this is predictive of the effect of beta-blockers on perioperative
+mortality. Second, we evaluated the probability that the DECREASE trials
+occurred assuming no data fabrication. Third, we reversed this
+assumption and assumed that data fabrication did occur and estimated how
+many data points would have to be fabricated to reproduce the results of
+the DECREASE trials, if the other published trials are regarded as
+estimating the true effect of beta-blockers on perioperative mortality
+in patients undergoing non-cardiac surgery.
 
-\section{Step 1: reproducing meta-analysis of Bouri et al.
+\subsection{Step 1: reproducing meta-analysis of Bouri et al.
 (2014)}\label{step-1-reproducing-meta-analysis-of-bouri-et-al.-2014}
 
-\subsection{Methods}\label{methods}
+\subsubsection{Methods}\label{methods}
 
 To ensure that we used similar analysis procedures as in the 2014
-meta-analysis\textsuperscript{7}, we initially reproduced Bouri et al.'s
+meta-analysis\textsuperscript{9}, we initially reproduced Bouri et al.'s
 estimates. This ensured that (1) their results are reproducible and (2)
 we are using the correct estimates in subsequent steps of our analyses.
-Using figures 2 and 3 from the original paper\textsuperscript{7}, we
+Using figures 2 and 3 from the original paper\textsuperscript{9}, we
 extracted the raw event data for the 2 (control vs experimental) by 2
 (event vs no event) design, which we used to recompute the natural
 logarithm of the risk ratio and its standard error. The extracted event
 data is available at \href{https://osf.io/aykeh}{osf.io/aykeh} and our
 analysis plan was preregistered at
 \href{https://osf.io/vnmzc}{osf.io/vnmzc}.
+
+\begin{verbatim}
+## Warning in library(package, lib.loc = lib.loc, character.only = TRUE,
+## logical.return = TRUE, : there is no package called 'metafor'
+\end{verbatim}
+
+\begin{verbatim}
+## Installing package into '/home/chjh/R/x86_64-redhat-linux-gnu-library/3.3'
+## (as 'lib' is unspecified)
+\end{verbatim}
 
 We computed the log risk ratio (i.e., log RR) for each study and pooled
 these using the \texttt{R} package \texttt{metafor}\textsuperscript{14}.
@@ -181,14 +209,14 @@ procedure in the \texttt{metafor} package. When there was a zero-count
 for a cell (e.g., zero events), 0.5 was added to that cell, as is common
 in meta-analyses on risk- and odds ratios in order to prevent
 computational artefacts\textsuperscript{16}. The 2014
-meta-analysis\textsuperscript{7} did not specify the variance estimate
+meta-analysis\textsuperscript{9} did not specify the variance estimate
 used; hence, minor discrepancies between our estimates and the original
 estimates could be due to differences in the estimation procedure.
 
-\subsection{Results}\label{results}
+\subsubsection{Results}\label{results}
 
 We were able to closely reproduce the estimates for the different sets
-of studies (Figure 2 of the 2014 meta-analysis\textsuperscript{7}).
+of studies (Figure 2 of the 2014 meta-analysis\textsuperscript{9}).
 Bouri et al. differentiated between the estimates from the non-DECREASE
 trials and the DECREASE trials. We confirmed the effect size estimates
 and the variance estimates for both the non-DECREASE- and the DECREASE
@@ -197,8 +225,9 @@ Table 1 depicts the original and reproduced values for both sets of
 studies.
 
 \begin{longtable}[]{@{}lllll@{}}
-\caption{The original- and reproduced meta-analytic results based on the
-data provided in the 2014 meta-analysis by Bouri et al.}\tabularnewline
+\caption{\textbf{Table XX.} The original- and reproduced meta-analytic
+results based on the data provided in the 2014 meta-analysis by Bouri et
+al.}\tabularnewline
 \toprule
 & & Risk ratio & \(\tau^2\) & Confidence interval\tabularnewline
 Non-DECREASE & Original & 1.27 & 0 & {[}1.01; 1.60{]}\tabularnewline
@@ -210,9 +239,9 @@ DECREASE & Original & 0.42 & 0.29 & {[}0.15; 1.23{]}\tabularnewline
 
 Second, we meta-analyzed all studies combined, including a dummy
 predictor for the DECREASE and non-DECREASE studies to reproduce results
-presented in Figure 4 of the 2014 meta-analysis\textsuperscript{7}.
+presented in Figure 4 of the 2014 meta-analysis\textsuperscript{9}.
 Surprisingly, our results showed stronger evidence against equal
-subgroups than the original meta-analysis\textsuperscript{7} (original:
+subgroups than the original meta-analysis\textsuperscript{9} (original:
 \(\chi^2(1)=3.91,p=.05\); reproduced: \(\chi^2(1)=6.12,p=0.013\)).
 Additionally, the original analyses showed substantial residual
 heterogeneity (\(I^2=74.4\)\%) whereas we found no residual
@@ -250,14 +279,14 @@ Propanolol & 1 & -1.642; 3.643\tabularnewline
 \bottomrule
 \end{longtable}
 
-\section{Step 2: evaluating the veracity of DECREASE
+\subsection{Step 2: evaluating the veracity of DECREASE
 studies}\label{step-2-evaluating-the-veracity-of-decrease-studies}
 
 Based on the non-DECREASE estimates from Step 1, we estimated the
 probability of obtaining the results in the DECREASE trials. To this
 end, we assumed that the non-DECREASE trials provide a valid
 representation of the true effect of beta-blockers on perioperative
-mortality (similar to Bouri et al.\textsuperscript{7}). The estimated
+mortality (similar to Bouri et al.\textsuperscript{9}). The estimated
 probability is also known as the veracity of the
 data\textsuperscript{17}, which indicates the probability of the
 observed data under a given true effect. We assumed that the
@@ -268,7 +297,7 @@ to not be a problem because a substantial number of nonsignificant
 effects are included in the dataset (9 of 11 results are
 nonsignificant).
 
-\subsection{Method}\label{method}
+\subsubsection{Method}\label{method}
 
 Based on the estimated mean log RR and its credible interval in the
 non-DECREASE studies, we computed the probability of the observed log RR
@@ -301,7 +330,7 @@ distribution as the non-DECREASE trials. This assumes that the
 information available from the other trials is informative of the true
 population effect.
 
-\subsection{Results}\label{results-1}
+\subsubsection{Results}\label{results-1}
 
 Figure 1 indicates that the DECREASE trials are highly unlikely under
 the estimated effect distribution based on the non-DECREASE trials. More
@@ -338,7 +367,7 @@ beta-blockade has no effect whatsoever (RRs between 0.779 and 1.284 in
 \caption{Sensitivity analyses for the p-value that indicates the probability of observing the results from the DECREASE studies, or more extreme results, based on the estimated true effect (non-DECREASE trials) and the accompanying variance estimate.}\label{fig:figure 2}
 \end{figure}
 
-\section{Step 3: estimating the amount of fabricated
+\subsection{Step 3: estimating the amount of fabricated
 data}\label{step-3-estimating-the-amount-of-fabricated-data}
 
 We estimated the number of data points that would need to be fabricated
@@ -347,9 +376,9 @@ non-DECREASE trials represent the true effect of perioperative
 beta-blockade. In contrast to Step 2 this assumes that the DECREASE
 trials might in fact contain fabricated data. The estimates from Step 3
 provide an indication of the extent of potential data fabrication in the
-DECREASE studies\textsuperscript{2--4,7}.
+DECREASE studies\textsuperscript{4--6,9}.
 
-\subsection{Method}\label{method-1}
+\subsubsection{Method}\label{method-1}
 
 In order to estimate the number of fabricated data points, we first
 estimated the effect of perioperative beta-blockade on mortality (in log
@@ -441,7 +470,7 @@ DECREASE trials) than under the estimates resulting from the genuine
 data (i.e., the non-DECREASE trials;
 \(p_F=P(L_{fabricated}>L_{genuine})\)).
 
-\subsection{Results}\label{results-2}
+\subsubsection{Results}\label{results-2}
 
 \begin{figure}
 
@@ -468,7 +497,7 @@ summary results. Only when the degree of confidence is lowered to around
 75\% does the interval not span the entire sample size. As such, based
 on the summary results, little can be said about the extent of the data
 fabrication that occurred in the DECREASE-I trial, affirming the
-conclusions of the original committee report\textsuperscript{4}.
+conclusions of the original committee report\textsuperscript{6}.
 
 For DECREASE-IV (\(N=1066\)), the 95\% confidence interval for the
 estimated number of fabricated data points is {[}3 - 1059{]} or {[}8 -
@@ -484,7 +513,9 @@ This indicates that it is possible not all data were fabricated (i.e.,
 provenance to discern between genuine and falsified data. This affirms
 the conclusion of the scientific integrity committee that the results of
 the DECREASE-IV trial are ``scientifically incorrect''
-(p.11)\textsuperscript{3}.
+(p.11)\textsuperscript{5}.
+
+\section{Part 2:}\label{part-2}
 
 \section{Discussion}\label{discussion}
 
@@ -499,19 +530,19 @@ scientific validity of the DECREASE-I and DECREASE-IV trials should by
 now be clear: they are to be regarded as irrelevant when assessing the
 effectiveness of beta-blockade on perioperative mortality. Nonetheless,
 the original papers that presented these trial results are not yet
-retracted\textsuperscript{9,10}, something we strongly recommend based
-on the combination of our results and the integrity
-reports\textsuperscript{2--4}.
+retracted\textsuperscript{2,3}, something we strongly recommend based on
+the combination of our results and the integrity
+reports\textsuperscript{4--6}.
 
 The ESC/ESA and ACC/AHA guidelines\textsuperscript{19,20} on
 perioperative beta-blockade already excluded the DECREASE trials in
 their assessment, but also state that other trials by Poldermans are
 excluded. However, upon close inspection of the reference lists, the
 ACC/AHA guidelines still cites four trials as evidence
-base\textsuperscript{10,21--23}, of which two were already inspected by
-the scientific integrity committees of Erasmus
-MC\textsuperscript{10,21}. In the ACC/AHA guidelines, the following is
-said about studies conducted by Poldermans:
+base\textsuperscript{2,21--23}, of which two were already inspected by
+the scientific integrity committees of Erasmus MC\textsuperscript{2,21}.
+In the ACC/AHA guidelines, the following is said about studies conducted
+by Poldermans:
 
 \begin{quote}
 \emph{``If nonretracted DECREASE publications and/or other derivative
@@ -558,7 +589,7 @@ the fabricator wants to remain undetected).
 
 With respect to clinical practice, the results provide some tentative
 evidence that type of beta-blockade can severely influence perioperative
-mortality. Our reanalysis of the Bouri et al.\textsuperscript{7} data
+mortality. Our reanalysis of the Bouri et al.\textsuperscript{9} data
 indicates that type of beta-blockade can reverse the effect on
 perioperative mortality, even after taking into account whether a study
 belongs to the DECREASE family. As such, atenolol seems to tentatively
@@ -595,62 +626,63 @@ reflect the problems with the evidence from the decrease trials.
 \emph{BMJ}. 2014;349.
 doi:\href{https://doi.org/10.1136/bmj.g5210}{10.1136/bmj.g5210}.
 
-\hypertarget{ref-commissie2011}{}
-2. Onderzoekscommissie Wetenschappelijke Integriteit. \emph{Onderzoek
-Naar Mogelijke Schending van de Wetenschappelijke Integriteit: Beknopte
-Versie}. Erasmus MC; 2011.
-\url{https://web.archive.org/web/20151113121125/http://www.erasmusmc.nl/cs-research/bijlagen/integriteit/rapport-poldermans-2011}.
-
-\hypertarget{ref-commissie2012}{}
-3. Commissie Vervolgonderzoek 2012. \emph{Rapport Vervolgonderzoek Naar
-Mogelijke Schending van de Wetenschappelijke Integriteit}. Erasmus MC;
-2012.
-\url{https://web.archive.org/web/20151027084205/http://www.erasmusmc.nl/5663/135857/3675250/3706798/erasmusmc.commissie.verv.onderzoek.2012}.
-
-\hypertarget{ref-commissie2013}{}
-4. Commissie Vervolgonderzoek Wetenschappelijke Integriteit 2013.
-\emph{Rapport}. Erasmus MC; 2014.
-\url{http://web.archive.org/web/20161104135848/http://www.erasmusmc.nl/cs-research/bijlagen/integriteit/eindrapport2014nl}.
-
-\hypertarget{ref-Devereaux313}{}
-5. Devereaux PJ, Beattie WS, Choi PT-L, et al. How strong is the
-evidence for the use of perioperative beta blockers in non-cardiac
-surgery? Systematic review and meta-analysis of randomised controlled
-trials. \emph{BMJ}. 2005;331(7512):313-321.
-doi:\href{https://doi.org/10.1136/bmj.38503.623646.8F}{10.1136/bmj.38503.623646.8F}.
-
-\hypertarget{ref-Angeli2010}{}
-6. Angeli F, Verdecchia P, Karthikeyan G, Mazzotta G, Gentile G, Reboldi
-G. \(\beta\)-blockers reduce mortality in patients undergoing high-risk
-non-cardiac surgery. \emph{American Journal of Cardiovascular Drugs}.
-2010;10(4):247-259.
-doi:\href{https://doi.org/10.2165/11539510-000000000-00000}{10.2165/11539510-000000000-00000}.
-
-\hypertarget{ref-bouri2014}{}
-7. Bouri S, Shun-Shin MJ, Cole GD, Mayet J, Francis DP. Meta-analysis of
-secure randomised controlled trials of -blockade to prevent
-perioperative death in non-cardiac surgery. \emph{Heart}.
-2014;100(6):456-464.
-doi:\href{https://doi.org/10.1136/heartjnl-2013-304262}{10.1136/heartjnl-2013-304262}.
-
-\hypertarget{ref-esc2014}{}
-8. ESC/ESA. Guidelines on non-cardiac surgery: Cardiovascular assessment
-and management. \emph{European Heart Journal}. 2014;35:2383-2243.
+\hypertarget{ref-poldermans1999}{}
+2. Poldermans D, Boersma E, Bax JJ, et al. The effect of bisoprolol on
+perioperative mortality and myocardial infarction in High-Risk patients
+undergoing vascular surgery. \emph{The New England journal of medicine}.
+1999;341(24):1789-1794.
+doi:\href{https://doi.org/10.1056/NEJM199912093412402}{10.1056/NEJM199912093412402}.
 
 \hypertarget{ref-dunkelgrun2009}{}
-9. Dunkelgrun M, Boersma E, Schouten O, et al. Bisoprolol and
+3. Dunkelgrun M, Boersma E, Schouten O, et al. Bisoprolol and
 fluvastatin for the reduction of perioperative cardiac mortality and
 myocardial infarction in intermediate-risk patients undergoing
 noncardiovascular surgery: A randomized controlled trial (DECREASE-IV).
 \emph{Annals of surgery}. 2009;249(6):921-926.
 doi:\href{https://doi.org/10.1097/SLA.0b013e3181a77d00}{10.1097/SLA.0b013e3181a77d00}.
 
-\hypertarget{ref-poldermans1999}{}
-10. Poldermans D, Boersma E, Bax JJ, et al. The effect of bisoprolol on
-perioperative mortality and myocardial infarction in High-Risk patients
-undergoing vascular surgery. \emph{The New England journal of medicine}.
-1999;341(24):1789-1794.
-doi:\href{https://doi.org/10.1056/NEJM199912093412402}{10.1056/NEJM199912093412402}.
+\hypertarget{ref-commissie2011}{}
+4. Onderzoekscommissie Wetenschappelijke Integriteit. \emph{Onderzoek
+Naar Mogelijke Schending van de Wetenschappelijke Integriteit: Beknopte
+Versie}. Erasmus MC; 2011.
+\url{https://web.archive.org/web/20151113121125/http://www.erasmusmc.nl/cs-research/bijlagen/integriteit/rapport-poldermans-2011}.
+
+\hypertarget{ref-commissie2012}{}
+5. Commissie Vervolgonderzoek 2012. \emph{Rapport Vervolgonderzoek Naar
+Mogelijke Schending van de Wetenschappelijke Integriteit}. Erasmus MC;
+2012.
+\url{https://web.archive.org/web/20151027084205/http://www.erasmusmc.nl/5663/135857/3675250/3706798/erasmusmc.commissie.verv.onderzoek.2012}.
+
+\hypertarget{ref-commissie2013}{}
+6. Commissie Vervolgonderzoek Wetenschappelijke Integriteit 2013.
+\emph{Rapport}. Erasmus MC; 2014.
+\url{http://web.archive.org/web/20161104135848/http://www.erasmusmc.nl/cs-research/bijlagen/integriteit/eindrapport2014nl}.
+
+\hypertarget{ref-Devereaux313}{}
+7. Devereaux PJ, Beattie WS, Choi PT-L, et al. How strong is the
+evidence for the use of perioperative beta blockers in non-cardiac
+surgery? Systematic review and meta-analysis of randomised controlled
+trials. \emph{BMJ}. 2005;331(7512):313-321.
+doi:\href{https://doi.org/10.1136/bmj.38503.623646.8F}{10.1136/bmj.38503.623646.8F}.
+
+\hypertarget{ref-Angeli2010}{}
+8. Angeli F, Verdecchia P, Karthikeyan G, Mazzotta G, Gentile G, Reboldi
+G. \(\beta\)-blockers reduce mortality in patients undergoing high-risk
+non-cardiac surgery. \emph{American Journal of Cardiovascular Drugs}.
+2010;10(4):247-259.
+doi:\href{https://doi.org/10.2165/11539510-000000000-00000}{10.2165/11539510-000000000-00000}.
+
+\hypertarget{ref-bouri2014}{}
+9. Bouri S, Shun-Shin MJ, Cole GD, Mayet J, Francis DP. Meta-analysis of
+secure randomised controlled trials of -blockade to prevent
+perioperative death in non-cardiac surgery. \emph{Heart}.
+2014;100(6):456-464.
+doi:\href{https://doi.org/10.1136/heartjnl-2013-304262}{10.1136/heartjnl-2013-304262}.
+
+\hypertarget{ref-esc2014}{}
+10. ESC/ESA. Guidelines on non-cardiac surgery: Cardiovascular
+assessment and management. \emph{European Heart Journal}.
+2014;35:2383-2243.
 
 \hypertarget{ref-Buyse1999-jq}{}
 11. Buyse M, George SL, Evans S, et al. The role of biostatistics in the

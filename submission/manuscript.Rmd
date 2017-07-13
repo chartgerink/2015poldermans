@@ -61,8 +61,8 @@ bouri_data$beta_blocker <- c("atenolol",
                              "bisoprolol",
                              "bisoprolol")
 
-# Add .5 to studies with zero-counts
-bouri_data[c(4, 7, 9), 7:10] <-  bouri_data[c(4, 7, 9), 7:10] + .5
+# Add .5 to all studies to correct for zero-counts
+bouri_data[, 7:10] <-  bouri_data[, 7:10] + .5
 
 bouri_data$ln_rr <- log((bouri_data$d/(bouri_data$b+bouri_data$d))/(bouri_data$c/(bouri_data$a+bouri_data$c)))
 bouri_data$se_ln_rr <- sqrt((1/bouri_data$a)+(1/bouri_data$b)+(1/bouri_data$c)+(1/bouri_data$d))

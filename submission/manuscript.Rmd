@@ -1,6 +1,7 @@
 ---
 title: "Analyzing DECREASE trials to estimate evidence of data manipulation"
-author: "[Chris H. J. Hartgerink](https://orcid.org/0000-0003-1050-6809), E. M. Kemper, [Markus W. Hollman](https://orcid.org/0000-0001-8248-0244), [Gerben ter Riet](https://orcid.org/0000-0002-2231-7637)"
+author: '[Chris H. J. Hartgerink](https://orcid.org/0000-0003-1050-6809), E. M. Kemper,
+  [Markus W. Hollman](https://orcid.org/0000-0001-8248-0244), [Gerben ter Riet](https://orcid.org/0000-0002-2231-7637)'
 date: '`r format(Sys.time(), "%d %B, %Y")`'
 output:
   pdf_document:
@@ -18,7 +19,7 @@ The effect of beta-blockers on perioperative mortality in non-cardiac surgery ha
 
 # Author note
 
-All manuscript materials are available at https://github.com/chartgerink/2015poldermans and are preserved at Zenodo [@chris_hartgerink_2017_845355]. CHJH was funded by the Office of Research Integrity during part of this project (ORI; ORIIR160019).
+All manuscript materials are available at https://github.com/chartgerink/2015poldermans and are preserved at Zenodo ([doi.org/10.5281/zenodo.845354](https://doi.org/10.5281/zenodo.845354)). CHJH was funded by the Office of Research Integrity during part of this project (ORI; ORIIR160019).
 
 ```{r, echo = FALSE}
 tabnr <- 1
@@ -241,7 +242,7 @@ Results indicate that the DECREASE trials are highly unlikely under the estimate
 Results from Step 1 indicated that no between-trial variance (i.e., homogeneity; $\tau^2=0$) of the effects was observed; given the small number of trials included (i.e., `r mod_clean$k`) this estimate is highly uncertain, however. The total $N$ across the non-DECREASE trials was `r sum(bouri_data$control_n[bouri_data$decrease == 0] + bouri_data$beta_n[bouri_data$decrease == 0])`. We conducted sensitivity analyses to see how dependent results are on the heterogeneity estimate (not preregistered; [osf.io/vnmzc](https://osf.io/vnmzc)). Fixing the variance estimate $\tau^2$ to .5, indicates that the probability of observing the DECREASE trials jointly is approximately 1.2 out of 100 000 (see Figure `r fignr`). To put these numbers into context, a variance of 0.25 would suggest that results of perioperative beta-blockade vary substantially due to contextual circumstances of the study, even if perioperative beta-blockade has no effect whatsoever (RRs between `r round(exp(0 - .25), 3)` and `r round(exp(0 + .25), 3)` in ~64\% of the cases).
 
 ```{r, echo = FALSE}
-pdf(sprintf('%sfigures/fig2.pdf', x12), width = 8, height = 6)
+pdf(sprintf('%sfigures/fig1.pdf', x12), width = 8, height = 6)
 tau2 <- seq(0, .5, .01)
 
 prob_sens_t <- NULL
@@ -281,7 +282,7 @@ plot(tau2, prob_sens_t, type = 'l', xlab = TeX('$\\tau^2$'),
 invisible(dev.off())
 ```
 ```{r figure 2, fig.cap = 'Sensitivity analyses for the p-value that indicates the probability of observing the results from the DECREASE studies, or more extreme results, based on the estimated true effect (non-DECREASE trials) and the accompanying variance estimate.', out.width = '80%', fig.asp = .5, fig.align = 'center', echo = FALSE}
-knitr::include_graphics(sprintf("%sfigures/fig2.pdf", x12))
+knitr::include_graphics(sprintf("%sfigures/fig1.pdf", x12))
 fignr <- fignr + 1
 ```
 
@@ -299,10 +300,9 @@ We estimated the number of data points that would need to be manipulated to arri
 In order to estimate the number of manipulated data points, we first estimated the probability of perioperative mortality (in log odds) in each trial arm for each trail stratum. As such, we estimate mortality odds four times: once per condition (beta-blocker or control) per trial stratum (DECREASE- and non-DECREASE trials). For all four combinations of condition and trial type, we ran a meta-analysis applying similar methods used in Step 1, resulting in four meta-analytic absolute mortality estimates with corresponding effect variances. Throughout the simulations, we used the point estimates (i.e., fixed effect) to simulate genuine- and manipulated data, but supplemented this by using distribution estimates (i.e., random effects) as sensitivity analyses.
 
 We applied the inversion method to estimate the number of manipulated data points in the DECREASE trials [@casella2002]. We assumed that if data are manipulated, each data point is manipulated in the same way and to the same extent. The inversion method iteratively hypothesizes that *X* out of *N* data points were manipulated (i.e., $X={0, 1, ..., N}$), assuming they were manipulated in the same way. For each combination of *X* and trial, we simulated `r iterations` datasets. Each simulated dataset contained *X* manipulated data points and *N-X* genuine data points. For each simulated dataset (exact simulation procedure in the next paragraph), we determined the likelihood of the results with 
-\begin{equation}
-\label{eq1}
+$$
 L(\theta|\pi_{E},\pi_{C})=\pi_{E}^{n_{11}}(1-\pi_{E})^{n_{12}} \times \pi_{C}^{n_{21}}(1 - \pi_{C})^{n_{22}}
-\end{equation}
+$$
 where $\pi_{E}$ indicates the mortality rate in the beta-blocker condition as drawn from the meta-analytic effect distribution ($\pi_{C}$ indicates the mortality rate in the control condition). We estimated those parameters using the meta-analytic procedure described in the previous paragraph, resulting in the estimates depicted in Table `r tabnr`. The likelihood was computed under both the manipulated effect estimates (i.e., $L_{manipulated}$) and the genuine data (i.e., $L_{genuine}$). Table 4 indicates which cell sizes the various $n_{XX}$ refer to within the (simulated) data. After computing the likelihoods, we compared them to determine whether the simulated data were more likely to arise from the genuine trials ($L_{genuine}>L_{manipulated}$) or from the manipulated trials ($L_{manipulated}>L_{genuine}$). Note that comparing the likelihoods is a minor deviation from the preregistration, where we initially planned on using $p$-value comparisons ([osf.io/vnmzc](https://osf.io/vnmzc)).
 
 
@@ -429,7 +429,7 @@ We computed $p_M$ for all *X* out of *N* manipulated data points in `r iteration
 
 3. Simulated the number of deaths for the different conditions using a binomial distribution based on the mortality rate as determined in 2, resulting in the cell counts as in Table 3.
 
-Based on the meta-analytic effect from 2 and the cell sizes from 3, we computed the likelihoods $L_{manipulated}$ and $L_{genuine}$ using Equation \ref{eq1}. As mentioned before, we computed $p_M$, which indicates the probability that the data are more likely under the estimates resulting from the (allegedly) manipulated data (i.e., the DECREASE trials) than under the estimates resulting from the genuine data (i.e., the non-DECREASE trials; $p_M=P(L_{manipulated}>L_{genuine})$).
+Based on the meta-analytic effect from 2 and the cell sizes from 3, we computed the likelihoods $L_{manipulated}$ and $L_{genuine}$ using Equation 1. As mentioned before, we computed $p_M$, which indicates the probability that the data are more likely under the estimates resulting from the (allegedly) manipulated data (i.e., the DECREASE trials) than under the estimates resulting from the genuine data (i.e., the non-DECREASE trials; $p_M=P(L_{manipulated}>L_{genuine})$).
 
 ### Results
 
@@ -483,25 +483,30 @@ for (i in seq(0, 1, .01))
   lb <- .5 - (i / 2)
   ub <- .5 + (i / 2)
   
-  res_i_uncertain_lb[j] <- which(abs(res_i_uncertain - lb) == min(abs(res_i_uncertain - lb)))[1]
-  res_i_uncertain_ub[j] <- which(abs(res_i_uncertain - ub) == min(abs(res_i_uncertain - ub)))[1]
+  # MINUS ONE because R does not have zero indexing
+  # AAAA
+  res_i_uncertain_lb[j] <- which(abs(res_i_uncertain - lb) == min(abs(res_i_uncertain - lb)))[1] - 1
+  res_i_uncertain_ub[j] <- which(abs(res_i_uncertain - ub) == min(abs(res_i_uncertain - ub)))[1] - 1
   
   
-  res_i_certain_lb[j] <- which(abs(res_i_certain - lb) == min(abs(res_i_certain - lb)))[1]
-  res_i_certain_ub[j] <- which(abs(res_i_certain - ub) == min(abs(res_i_certain - ub)))[1]
+  res_i_certain_lb[j] <- which(abs(res_i_certain - lb) == min(abs(res_i_certain - lb)))[1] - 1
+  res_i_certain_ub[j] <- which(abs(res_i_certain - ub) == min(abs(res_i_certain - ub)))[1] - 1
   
   
-  res_iv_uncertain_lb[j] <- which(abs(res_iv_uncertain - lb) == min(abs(res_iv_uncertain - lb)))[1]
-  res_iv_uncertain_ub[j] <- which(abs(res_iv_uncertain - ub) == min(abs(res_iv_uncertain - ub)))[1]
+  res_iv_uncertain_lb[j] <- which(abs(res_iv_uncertain - lb) == min(abs(res_iv_uncertain - lb)))[1] - 1
+  res_iv_uncertain_ub[j] <- which(abs(res_iv_uncertain - ub) == min(abs(res_iv_uncertain - ub)))[1] - 1
   
-  res_iv_certain_lb[j] <- which(abs(res_iv_certain - lb) == min(abs(res_iv_certain - lb)))[1]
-  res_iv_certain_ub[j] <- which(abs(res_iv_certain - ub) == min(abs(res_iv_certain - ub)))[1]
+  res_iv_certain_lb[j] <- which(abs(res_iv_certain - lb) == min(abs(res_iv_certain - lb)))[1] - 1
+  res_iv_certain_ub[j] <- which(abs(res_iv_certain - ub) == min(abs(res_iv_certain - ub)))[1] - 1
   
   
   j <- j + 1
 }
 
-pdf(sprintf('%sfigures/fig3.pdf', x12), width = 8, height = 6)
+N_I <- sum(bouri_data[grepl(bouri_data$study, pattern = '_I-'),c(3,5)])
+N_IV <- sum(bouri_data[grepl(bouri_data$study, pattern = '_IV-'),c(3,5)])
+
+pdf(sprintf('%sfigures/fig2.pdf', x12), width = 8, height = 6)
 
 par(mar = c(5, 5, 2.5, 0),
     mfrow = c(2, 2))
@@ -534,13 +539,13 @@ abline(h = c(.025, .975), lty = 3)
 par(mar = c(4, 5, 0.5, 0))
 
 plot(x = NA, y = NA,
-     xlim = c(0,1), ylim = c(0, length(res_i_certain)),
-     xlab = "Confidence in %", ylab = "Number of data points manipulated")
+     xlim = c(0,1), ylim = c(0, 100),
+     xlab = "Confidence in %", ylab = "% of data points manipulated")
 
-lines(x = seq(0, 1, .01), y = res_i_uncertain_lb)
-lines(x = seq(0, 1, .01), y = res_i_uncertain_ub)
-lines(x = seq(0, 1, .01), y = res_i_certain_lb, lty = 2, pch = 2, type = 'l')
-lines(x = seq(0, 1, .01), y = res_i_certain_ub, lty = 2, pch = 2, type = 'l')
+lines(x = seq(0, 1, .01), y = (res_i_uncertain_lb / N_I) * 100)
+lines(x = seq(0, 1, .01), y = (res_i_uncertain_ub / N_I) * 100)
+lines(x = seq(0, 1, .01), y = (res_i_certain_lb / N_I) * 100, lty = 2, pch = 2, type = 'l')
+lines(x = seq(0, 1, .01), y = (res_i_certain_ub / N_I) * 100, lty = 2, pch = 2, type = 'l')
 abline(v = .95, lty = 3)
 
 # clip(x1 = 0, x2 = length(res_i_uncertain), y1 = 0.025, y2 = .975)
@@ -550,14 +555,14 @@ abline(v = .95, lty = 3)
 par(mar = c(4, 0, 0.5, 0.5))
 
 plot(x = NA, y = NA,
-     xlim = c(0,1), ylim = c(0, length(res_iv_certain)),
+     xlim = c(0,1), ylim = c(0, 100),
      xlab = "Confidence in %", ylab = "",
      yaxt = 'n')
 
-lines(x = seq(0, 1, .01), y = res_iv_uncertain_lb)
-lines(x = seq(0, 1, .01), y = res_iv_uncertain_ub)
-lines(x = seq(0, 1, .01), y = res_iv_certain_lb, lty = 2, pch = 2, type = 'l')
-lines(x = seq(0, 1, .01), y = res_iv_certain_ub, lty = 2, pch = 2, type = 'l')
+lines(x = seq(0, 1, .01), y = (res_iv_uncertain_lb / N_IV) * 100)
+lines(x = seq(0, 1, .01), y = (res_iv_uncertain_ub / N_IV) * 100)
+lines(x = seq(0, 1, .01), y = (res_iv_certain_lb / N_IV) * 100, lty = 2, pch = 2, type = 'l')
+lines(x = seq(0, 1, .01), y = (res_iv_certain_ub / N_IV) * 100, lty = 2, pch = 2, type = 'l')
 abline(v = .95, lty = 3)
 invisible(dev.off())
 ```
@@ -565,7 +570,7 @@ invisible(dev.off())
 For DECREASE-I ($N=`r bouri_data$control_n[10] + bouri_data$beta_n[10]`$), the 95\% confidence interval for the estimated number of manipulated data points is [`r which.min(res_i_certain - .025) - 1` - `r which.max(res_i_certain - .975) - 1`] or [`r which.min(res_i_uncertain - .025) - 1` - `r which.max(res_i_uncertain - .975) - 1`] when based on a point estimate or a more uncertain distribution estimate, respectively. The left column of Figure `r fignr` depicts the $p_M$ per *X* manipulated data points (top panel) and the bounds of the confidence interval when the degree of confidence is altered (lower panel). Staying clearly between the dotted lines in the top panel, depicting the 95\% CI (top: .975; bottom: .025), it becomes apparent that the degree of uncertainty is too high to make any reasonable estimates about the number of manipulated data points with sufficient confidence. This is partly due to the small sample size of the DECREASE-I trial (i.e., $N=`r length(res_i_certain) - 1`$) and the availability of just the summary results. Only when the degree of confidence is lowered to around 75\% does the interval not span the entire sample size. As such, based on the summary results, little can be said about the extent of the data manipulation that occurred in the DECREASE-I trial, affirming the conclusions of the original committee report [@commissie2013]. 
 
 ```{r figure 3, fig.cap = 'Inversion method results used to estimate the number of data points manipulated in the DECREASE-I and DECREASE-IV trials. The top row panels indicate $p_M$ (y-axis) for all $X$ out of $N$ manipulated data points (x-axis). The bottom row indicates the estimated interval of manipulated data points (y-axis) when varying the degree of confidence (x-axis). Dotted lines indicate the bounds for a 95 percent CI.', out.width = '80%', fig.asp = .5, fig.align = 'center', echo = FALSE}
-knitr::include_graphics(sprintf("%sfigures/fig3.pdf", x12))
+knitr::include_graphics(sprintf("%sfigures/fig2.pdf", x12))
 fignr <- fignr + 1
 ```
 
